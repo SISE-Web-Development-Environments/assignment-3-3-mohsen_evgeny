@@ -72,19 +72,19 @@ export default {
       form: {
         username: "",
         password: "",
-        submitError: undefined
-      }
+        submitError: undefined,
+      },
     };
   },
   validations: {
     form: {
       username: {
-        required
+        required,
       },
       password: {
-        required
-      }
-    }
+        required,
+      },
+    },
   },
   methods: {
     validateState(param) {
@@ -94,10 +94,10 @@ export default {
     async Login() {
       try {
         const response = await this.axios.post(
-          "https://test-for-3-2.herokuapp.com/user/Login",
+          "https://ass-3-2-mohsen-evgeny.herokuapp.com/Login",
           {
             username: this.form.username,
-            password: this.form.password
+            password: this.form.password,
           }
         );
         // console.log(response);
@@ -120,8 +120,8 @@ export default {
       // console.log("login method go");
 
       this.Login();
-    }
-  }
+    },
+  },
 };
 </script>
 <style lang="scss" scoped>

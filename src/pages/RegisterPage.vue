@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <h1 class="title">Register</h1>
+    <h1 class="title">Register Page</h1>
     <b-form @submit.prevent="onRegister" @reset.prevent="onReset">
       <b-form-group
         id="input-group-username"
@@ -24,6 +24,42 @@
           Username alpha
         </b-form-invalid-feedback>
       </b-form-group>
+
+      <!-- ////////////// -->
+      <b-form-group
+        id="input-group-firstname"
+        label-cols-sm="3"
+        label="First Name:"
+        label-for="firstname"
+      >
+        <b-form-input
+          id="firstname"
+          v-model="$v.form.firstname.$model"
+          type="text"
+          :state="validateState('firstname')"
+        ></b-form-input>
+        <b-form-invalid-feedback>
+          firstname is required
+        </b-form-invalid-feedback>
+      </b-form-group>
+
+      <b-form-group
+        id="input-group-lastname"
+        label-cols-sm="3"
+        label="Last Name:"
+        label-for="lastname"
+      >
+        <b-form-input
+          id="lastname"
+          v-model="$v.form.lastname.$model"
+          type="text"
+          :state="validateState('lastname')"
+        ></b-form-input>
+        <b-form-invalid-feedback>
+          lastname is required
+        </b-form-invalid-feedback>
+      </b-form-group>
+      <!-- //// -->
 
       <b-form-group
         id="input-group-country"
@@ -89,6 +125,42 @@
           The confirmed password is not equal to the original password
         </b-form-invalid-feedback>
       </b-form-group>
+      <!-- ////////////// -->
+
+      <b-form-group
+        id="input-group-email"
+        label-cols-sm="3"
+        label="E-mail:"
+        label-for="email"
+      >
+        <b-form-input
+          id="email"
+          v-model="$v.form.email.$model"
+          type="email"
+          :state="validateState('email')"
+        ></b-form-input>
+        <b-form-invalid-feedback>
+          email is required
+        </b-form-invalid-feedback>
+      </b-form-group>
+
+      <b-form-group
+        id="input-group-image"
+        label-cols-sm="3"
+        label="Image URL:"
+        label-for="image"
+      >
+        <b-form-input
+          id="image"
+          v-model="$v.form.image.$model"
+          type="text"
+          :state="validateState('image')"
+        ></b-form-input>
+        <b-form-invalid-feedback>
+          image URL is required
+        </b-form-invalid-feedback>
+      </b-form-group>
+      <!-- ////////////// -->
 
       <b-button type="reset" variant="danger">Reset</b-button>
       <b-button
@@ -127,7 +199,7 @@ import {
   maxLength,
   alpha,
   sameAs,
-  email
+  email,
 } from "vuelidate/lib/validators";
 
 export default {
@@ -136,17 +208,18 @@ export default {
     return {
       form: {
         username: "",
-        firstName: "",
-        lastName: "",
+        firstname: "",
+        lastname: "",
         country: null,
         password: "",
         confirmedPassword: "",
         email: "",
-        submitError: undefined
+        image: "",
+        submitError: undefined,
       },
       countries: [{ value: null, text: "", disabled: true }],
       errors: [],
-      validated: false
+      validated: false,
     };
   },
   validations: {
@@ -154,20 +227,33 @@ export default {
       username: {
         required,
         length: (u) => minLength(3)(u) && maxLength(8)(u),
-        alpha
+        alpha,
+      },
+      firstname: {
+        required,
+      },
+      lastname: {
+        required,
       },
       country: {
-        required
+        required,
       },
       password: {
         required,
-        length: (p) => minLength(5)(p) && maxLength(10)(p)
+        length: (p) => minLength(5)(p) && maxLength(10)(p),
       },
       confirmedPassword: {
         required,
-        sameAsPassword: sameAs("password")
-      }
-    }
+        sameAsPassword: sameAs("password"),
+      },
+      email: {
+        required,
+        email,
+      },
+      image: {
+        required,
+      },
+    },
   },
   mounted() {
     // console.log("mounted");
@@ -182,14 +268,20 @@ export default {
     async Register() {
       try {
         const response = await this.axios.post(
-          "https://test-for-3-2.herokuapp.com/user/Register",
+          "https://ass-3-2-mohsen-evgeny.herokuapp.com/Register",
           {
+            //TODO: change
             username: this.form.username,
-            password: this.form.password
+            firstname: this.form.firstname,
+            lastname: this.form.lastname,
+            country: this.form.country,
+            email: this.form.email,
+            password: this.form.password,
+            image: this.form.image,
           }
         );
         this.$router.push("/login");
-        // console.log(response);
+        // console.log(response)
       } catch (err) {
         console.log(err.response);
         this.form.submitError = err.response.data.message;
@@ -207,18 +299,19 @@ export default {
     onReset() {
       this.form = {
         username: "",
-        firstName: "",
-        lastName: "",
+        firstname: "",
+        lastname: "",
         country: null,
         password: "",
         confirmedPassword: "",
-        email: ""
+        email: "",
+        image: "",
       };
       this.$nextTick(() => {
         this.$v.$reset();
       });
-    }
-  }
+    },
+  },
 };
 </script>
 <style lang="scss" scoped>
