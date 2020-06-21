@@ -14,18 +14,15 @@
             </div>
             Ingredients:
             <ul>
-              <li
-                v-for="(r, index) in recipe.extendedIngredients"
-                :key="index + '_' + r.id"
-              >
-                {{ r.original }}
+              <li v-for="index in recipe.ingredients" :key="index">
+                {{ index }}
               </li>
             </ul>
           </div>
           <div class="wrapped">
             Instructions:
             <ol>
-              <li v-for="s in recipe._instructions" :key="s.number">
+              <li v-for="s in recipe.instructions" :key="s.number">
                 {{ s.step }}
               </li>
             </ol>
@@ -45,7 +42,7 @@
 export default {
   data() {
     return {
-      recipe: null
+      recipe: null,
     };
   },
   async created() {
@@ -55,10 +52,12 @@ export default {
 
       try {
         response = await this.axios.get(
-          "https://test-for-3-2.herokuapp.com/recipes/info",
-          {
-            params: { id: this.$route.params.recipeId }
-          }
+          // "https://test-for-3-2.herokuapp.com/recipes/info",
+          `https://ass-3-2-mohsen-evgeny.herokuapp.com/recipes/show/${this.$route.params.recipeId}`
+
+          // {
+          //   params: {this.$route.params.recipeId },
+          // }
         );
 
         // console.log("response.status", response.status);
@@ -69,39 +68,13 @@ export default {
         return;
       }
 
-      let {
-        analyzedInstructions,
-        instructions,
-        extendedIngredients,
-        aggregateLikes,
-        readyInMinutes,
-        image,
-        title
-      } = response.data.recipe;
+      console.log(response);
 
-      let _instructions = analyzedInstructions
-        .map((fstep) => {
-          fstep.steps[0].step = fstep.name + fstep.steps[0].step;
-          return fstep.steps;
-        })
-        .reduce((a, b) => [...a, ...b], []);
-
-      let _recipe = {
-        instructions,
-        _instructions,
-        analyzedInstructions,
-        extendedIngredients,
-        aggregateLikes,
-        readyInMinutes,
-        image,
-        title
-      };
-
-      this.recipe = _recipe;
+      this.recipe = response.data;
     } catch (error) {
       console.log(error);
     }
-  }
+  },
 };
 </script>
 
