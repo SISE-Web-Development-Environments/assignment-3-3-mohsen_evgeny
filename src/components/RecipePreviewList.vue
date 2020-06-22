@@ -4,10 +4,11 @@
       {{ title }}:
       <slot></slot>
     </h3>
-    <b-row>
-      <b-col v-for="r in recipes" :key="r.id">
-        <RecipePreview class="recipePreview" :recipe="r" />
-      </b-col>
+    <b-row v-for="r in recipes" :key="r.id">
+      <!-- <b-col v-for="r in recipes" :key="r.id"> -->
+      <RecipePreview class="recipePreview" :recipe="r" />
+      <br />
+      <!-- </b-col> -->
     </b-row>
   </b-container>
 </template>
@@ -17,17 +18,17 @@ import RecipePreview from "./RecipePreview.vue";
 export default {
   name: "RecipePreviewList",
   components: {
-    RecipePreview
+    RecipePreview,
   },
   props: {
     title: {
       type: String,
-      required: true
-    }
+      required: true,
+    },
   },
   data() {
     return {
-      recipes: []
+      recipes: [],
     };
   },
   mounted() {
@@ -37,19 +38,22 @@ export default {
     async updateRecipes() {
       try {
         const response = await this.axios.get(
-          "https://test-for-3-2.herokuapp.com/recipes/random"
+          // "https://test-for-3-2.herokuapp.com/recipes/random"
+          "https://ass-3-2-mohsen-evgeny.herokuapp.com/recipes/random"
         );
 
         // console.log(response);
-        const recipes = response.data.recipes;
+        // const recipes = response.data.recipes; // change to data
+        const recipes = response.data; // change to data
+        // console.log(recipes);
         this.recipes = [];
         this.recipes.push(...recipes);
         // console.log(this.recipes);
       } catch (error) {
         console.log(error);
       }
-    }
-  }
+    },
+  },
 };
 </script>
 
