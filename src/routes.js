@@ -23,6 +23,21 @@ const routes = [
     component: () => import("./pages/SearchPage"),
   },
   {
+    path: "/personal",
+    name: "personal",
+    component: () => import("./pages/PersonalPage"),
+  },
+  {
+    path: "/favorite",
+    name: "favorite",
+    component: () => import("./pages/FavoritePage"),
+  },
+  {
+    path: "/family",
+    name: "family",
+    component: () => import("./pages/FamilyPage"),
+  },
+  {
     path: "/recipe/:recipeId",
     name: "recipe",
     component: () => import("./pages/RecipeViewPage"),
