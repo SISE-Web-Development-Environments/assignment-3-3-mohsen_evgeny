@@ -1,9 +1,10 @@
 <template>
   <b-container>
     <h3>
-      {{ title }}:
+      {{ title }}
       <slot></slot>
     </h3>
+    <button @click="updateRecipes">Renew</button>
     <b-row v-for="r in recipes" :key="r.id">
       <!-- <b-col v-for="r in recipes" :key="r.id"> -->
       <RecipePreview class="recipePreview" :recipe="r" />
@@ -27,6 +28,7 @@ export default {
     },
   },
   data() {
+    
     return {
       recipes: [],
     };
