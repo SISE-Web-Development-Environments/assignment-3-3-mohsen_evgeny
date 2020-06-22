@@ -5,9 +5,6 @@
         <h1 class="title text-center">Main Page</h1>
       </b-col>
     </b-row>
-    <!-- TODO: delete -->
-    <!-- <router-link v-if="!$root.store.username" to="/login" tag="button">You need to Login to vue this</router-link> -->
-    <!-- {{ !$root.store.username }} -->
     <b-row>
       <b-col>
         <RecipePreviewList
@@ -31,12 +28,6 @@
         ></RecipePreviewList>
       </b-col>
     </b-row>
-
-    <!-- <div
-      style="position: absolute;top: 70%;left: 50%;transform: translate(-50%, -50%);"
-    >
-      Centeredasdasdad
-    </div>-->
   </div>
 </template>
 
