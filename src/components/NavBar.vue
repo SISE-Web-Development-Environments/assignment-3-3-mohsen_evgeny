@@ -5,7 +5,7 @@
     <!-- left components in nav bar -->
     <b-navbar-nav>
       <router-link tag="b-nav-item" :to="{ name: 'main' }"
-        >Main-Page</router-link
+        >Main Page</router-link
       >
       <router-link tag="b-nav-item" :to="{ name: 'search' }"
         >Search</router-link
