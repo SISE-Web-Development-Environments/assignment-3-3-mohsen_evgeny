@@ -39,7 +39,8 @@ export default {
       try {
         const response = await this.axios.get(
           // "https://test-for-3-2.herokuapp.com/recipes/random"
-          "https://ass-3-2-mohsen-evgeny.herokuapp.com/recipes/random"
+          // "https://ass-3-2-mohsen-evgeny.herokuapp.com/recipes/random"
+          "http://localhost:3000/recipes/random"
         );
 
         // console.log(response);

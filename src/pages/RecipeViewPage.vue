@@ -53,7 +53,8 @@ export default {
       try {
         response = await this.axios.get(
           // "https://test-for-3-2.herokuapp.com/recipes/info",
-          `https://ass-3-2-mohsen-evgeny.herokuapp.com/recipes/show/${this.$route.params.recipeId}`
+          // `https://ass-3-2-mohsen-evgeny.herokuapp.com/recipes/show/${this.$route.params.recipeId}`
+          `http://localhost:3000/recipes/show/${this.$route.params.recipeId}`
         );
 
         // console.log("response.status", response.status);
