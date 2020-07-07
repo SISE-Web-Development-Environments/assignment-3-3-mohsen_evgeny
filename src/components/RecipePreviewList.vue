@@ -26,35 +26,38 @@ export default {
       type: String,
       required: true,
     },
+    recipes: {
+      type: Array,
+      required: true,
+    },
   },
-  data() {
-    
-    return {
-      recipes: [],
-    };
-  },
+  // data() {
+  //   return {
+  //     recipes: [],
+  //   };
+  // },
   mounted() {
-    this.updateRecipes();
+    // this.updateRecipes();
   },
   methods: {
-    async updateRecipes() {
-      try {
-        const response = await this.axios.get(
-          // "https://test-for-3-2.herokuapp.com/recipes/random"
-          "https://ass-3-2-mohsen-evgeny.herokuapp.com/recipes/random"
-        );
-
-        // console.log(response);
-        // const recipes = response.data.recipes; // change to data
-        const recipes = response.data; // change to data
-        // console.log(recipes);
-        this.recipes = [];
-        this.recipes.push(...recipes);
-        // console.log(this.recipes);
-      } catch (error) {
-        console.log(error);
-      }
-    },
+    // async updateRecipes() {
+    //   try {
+    //     const response = await this.axios.get(
+    //       // "https://test-for-3-2.herokuapp.com/recipes/random"
+    //       // "https://ass-3-2-mohsen-evgeny.herokuapp.com/recipes/random"
+    //       "http://localhost:3000/recipes/random"
+    //     );
+    //     // console.log(response);
+    //     // const recipes = response.data.recipes; // change to data
+    //     const recipes = response.data; // change to data
+    //     // console.log(recipes);
+    //     this.recipes = [];
+    //     this.recipes.push(...recipes);
+    //     // console.log(this.recipes);
+    //   } catch (error) {
+    //     console.log(error);
+    //   }
+    // },
   },
 };
 </script>

@@ -37,7 +37,10 @@ import {
   ToastPlugin,
   LayoutPlugin,
 ].forEach((x) => Vue.use(x));
+axios.defaults.withCredentials = true;
+
 Vue.use(Vuelidate);
+// axios.defaults.withCredentials = true;
 
 axios.interceptors.request.use(
   function(config) {
