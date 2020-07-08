@@ -1,23 +1,22 @@
 <template>
   <b-container>
     <h3>
-      {{ title }}
+      {{ title }}:
       <slot></slot>
     </h3>
-    <button @click="updateRecipes">Renew</button>
     <b-row v-for="r in recipes" :key="r.id">
-      <RecipePreview class="recipePreview" :recipe="r" />
+      <RecipePreviewUser class="recipePreview" :title="title" :recipe="r" />
       <br />
     </b-row>
   </b-container>
 </template>
 
 <script>
-import RecipePreview from "./RecipePreview.vue";
+import RecipePreviewUser from "./RecipePreviewUser.vue";
 export default {
-  name: "RecipePreviewList",
+  name: "RecipePreviewListUser",
   components: {
-    RecipePreview,
+    RecipePreviewUser,
   },
   props: {
     title: {
