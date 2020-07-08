@@ -12,8 +12,8 @@
         {{ recipe.RecipeName }}
       </div>
       <ul class="recipe-overview">
-        <li>{{ recipe.Duration }} minutes</li>
-        <li>{{ recipe.Likes }} likes</li>
+        <li>{{ recipe.Origin }}</li>
+        <li>{{ recipe.Reason }}</li>
       </ul>
     </div>
   </router-link>

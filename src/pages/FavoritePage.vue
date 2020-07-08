@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <h1 class="title">Favorite Page</h1>
-    <RecipePreviewListUser
+    <RecipePreviewList
       title="Favorite Recipes"
       class="FavoriteRecipes center"
       :recipes="favoriteResponse"
@@ -10,11 +10,11 @@
 </template>
 
 <script>
-import RecipePreviewListUser from "../components/RecipePreviewListUser";
+import RecipePreviewList from "../components/RecipePreviewList";
 
 export default {
   components: {
-    RecipePreviewListUser,
+    RecipePreviewList,
   },
 
   data: function() {
