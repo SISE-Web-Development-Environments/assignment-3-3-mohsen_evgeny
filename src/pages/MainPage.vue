@@ -10,6 +10,7 @@
         <RecipePreviewList
           title="Randome Recipes"
           class="RandomRecipes center"
+          :recipes="recipes"
         />
       </b-col>
       <!-- show for un loggedin users -->
@@ -17,6 +18,7 @@
         <LoginPage />
       </b-col>
       <b-col v-else>
+        <!-- TODO Change to RecipePreviewListUser -->
         <RecipePreviewList
           title="Last Viewed Recipes"
           :class="{
@@ -24,6 +26,7 @@
             blur: !$root.store.username,
             center: true,
           }"
+          :recipes="recipes"
           disabled
         ></RecipePreviewList>
       </b-col>
@@ -33,11 +36,37 @@
 
 <script>
 import RecipePreviewList from "../components/RecipePreviewList";
+// import RecipePreviewListUser from "../components/RecipePreviewListUser";
 import LoginPage from "../pages/LoginPage";
 export default {
   components: {
     RecipePreviewList,
+    // RecipePreviewListUser,
     LoginPage,
+  },
+  data() {
+    return {
+      recipes: [],
+    };
+  },
+  mounted() {
+    this.updateRecipes();
+  },
+  methods: {
+    async updateRecipes() {
+      try {
+        const response = await this.axios.get(
+          // "https://ass-3-2-mohsen-evgeny.herokuapp.com/recipes/random"
+          "http://localhost:3000/recipes/random"
+        );
+
+        const recipes = response.data; // change to data
+        this.recipes = [];
+        this.recipes.push(...recipes);
+      } catch (error) {
+        console.log(error);
+      }
+    },
   },
 };
 </script>
