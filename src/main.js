@@ -4,6 +4,9 @@ import VueAxios from "vue-axios";
 import axios from "axios";
 axios.defaults.withCredentials = true;
 
+import { InputGroupPlugin } from 'bootstrap-vue'
+Vue.use(InputGroupPlugin)
+
 import routes from "./routes";
 import VueRouter from "vue-router";
 import VueCookies from "vue-cookies";
