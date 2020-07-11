@@ -1,7 +1,10 @@
 <template>
   <router-link
-    :to="{ name: 'recipe', params: { recipeId: recipe.RecipeId } }"
-    class="recipe-preview"
+    :to="{
+      name: 'recipe',
+      params: { recipeId: recipe.RecipeId, family: true },
+    }"
+    class="recipe-preview-user"
   >
     <div class="recipe-body">
       <!-- <img v-if="image_load" :src="recipe.image" class="recipe-image" /> -->
@@ -31,7 +34,7 @@ export default {
 </script>
 
 <style scoped>
-.recipe-preview {
+.recipe-preview-user {
   display: inline-block;
   width: 50%;
   height: 100%;
@@ -39,13 +42,13 @@ export default {
   margin: 10px 10px;
   border-style: solid;
 }
-.recipe-preview > .recipe-body {
+.recipe-previews > .recipe-body {
   width: 100%;
   height: 200px;
   position: relative;
 }
 
-.recipe-preview .recipe-body .recipe-image {
+.recipe-preview-user .recipe-body .recipe-image {
   margin-left: auto;
   margin-right: auto;
   margin-top: auto;
@@ -58,13 +61,13 @@ export default {
   background-size: cover;
 }
 
-.recipe-preview .recipe-footer {
+.recipe-preview-user .recipe-footer {
   width: 100%;
   height: 50%;
   overflow: hidden;
 }
 
-.recipe-preview .recipe-footer .recipe-title {
+.recipe-preview-user .recipe-footer .recipe-title {
   padding: 10px 10px;
   width: 100%;
   font-size: 12pt;
@@ -75,7 +78,7 @@ export default {
   text-overflow: ellipsis;
 }
 
-.recipe-preview .recipe-footer ul.recipe-overview {
+.recipe-preview-user .recipe-footer ul.recipe-overview {
   padding: 5px 10px;
   width: 100%;
   display: -webkit-box;
@@ -94,7 +97,7 @@ export default {
   margin-bottom: 0px;
 }
 
-.recipe-preview .recipe-footer ul.recipe-overview li {
+.recipe-preview-user .recipe-footer ul.recipe-overview li {
   -webkit-box-flex: 1;
   -moz-box-flex: 1;
   -o-box-flex: 1;

@@ -48,17 +48,21 @@ export default {
   async created() {
     try {
       let response;
-      // response = this.$route.params.response;
 
       try {
-        response = await this.axios.get(
-          // "https://test-for-3-2.herokuapp.com/recipes/info",
-          // `https://ass-3-2-mohsen-evgeny.herokuapp.com/recipes/show/${this.$route.params.recipeId}`
-          `http://localhost:3000/recipes/show/${this.$route.params.recipeId}`
-        );
-
-        // console.log("response.status", response.status);
-        if (response.status !== 200) this.$router.replace("/NotFound");
+        if (this.$route.params.family || this.$route.params.personal) {
+          response = await this.axios.get(
+            // `https://ass-3-2-mohsen-evgeny.herokuapp.com/recipes/show/${this.$route.params.recipeId}`
+            // `http://localhost:3000/recipes/show/${this.$route.params.recipeId}`
+            `http://localhost:3000/user/getPersonalRecipeInfo/${this.$route.params.recipeId}`
+          );
+        } else {
+          response = await this.axios.get(
+            // `https://ass-3-2-mohsen-evgeny.herokuapp.com/recipes/show/${this.$route.params.recipeId}`
+            `http://localhost:3000/recipes/show/${this.$route.params.recipeId}`
+            // `http://localhost:3000/user/getPersonalRecipeInfo/${this.$route.params.recipeId}`
+          );
+        }
       } catch (error) {
         console.log("error.response.status", error.response.status);
         this.$router.replace("/NotFound");
@@ -67,7 +71,11 @@ export default {
 
       console.log(response);
 
-      this.recipe = response.data;
+      if (this.$route.params.family || this.$route.params.personal) {
+        this.recipe = response.data[0];
+      } else {
+        this.recipe = response.data;
+      }
     } catch (error) {
       console.log(error);
     }

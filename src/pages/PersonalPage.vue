@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <h1 class="title">Personal Page</h1>
-    <RecipePreviewListUser
+    <RecipePreviewList
       title="Personal Recipes"
       class="PersonalRecipes center"
       :recipes="personalResponse"
@@ -10,11 +10,11 @@
 </template>
 
 <script>
-import RecipePreviewListUser from "../components/RecipePreviewListUser";
+import RecipePreviewList from "../components/RecipePreviewList";
 
 export default {
   components: {
-    RecipePreviewListUser,
+    RecipePreviewList,
   },
 
   data: function() {
@@ -39,6 +39,7 @@ export default {
         const recipes = response.data; // change to data
         // this.personalResponse = [];
         this.personalResponse = recipes;
+        this.$store.personalResponse = recipes;
       } catch (err) {}
     },
   },
