@@ -89,6 +89,17 @@ const shared_data = {
 console.log(shared_data);
 // Vue.prototype.$root.store = shared_data;
 
+//if cookie is expired!
+// router.beforeEach((to, from, next) => {
+//   if (shared_data.username === undefined || !Vue.$cookie.get("session")) {
+//     shared_data.logout();
+
+//     next({ name: "main" });
+//   } else {
+//     next();
+//   }
+// });
+
 new Vue({
   router,
   data() {

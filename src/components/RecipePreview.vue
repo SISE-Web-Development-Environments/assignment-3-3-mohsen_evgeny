@@ -1,21 +1,47 @@
 <template>
-  <router-link
-    :to="{ name: 'recipe', params: { recipeId: recipe.id } }"
-    class="recipe-preview"
-  >
-    <div class="recipe-body">
-      <img :src="recipe.image" class="recipe-image" />
+  <div>
+    <div v-if="title == 'Personal Recipes'">
+      <router-link
+        :to="{
+          name: 'recipe',
+          params: { recipeId: recipe.id, personal: true },
+        }"
+        class="recipe-preview"
+      >
+        <div class="recipe-body">
+          <img :src="recipe.image" class="recipe-image" />
+        </div>
+        <div class="recipe-footer">
+          <div :title="recipe.title" class="recipe-title">
+            {{ recipe.title }}
+          </div>
+          <ul class="recipe-overview">
+            <li>{{ recipe.readyInMinutes }} minutes</li>
+            <li>{{ recipe.aggregateLikes }} likes</li>
+          </ul>
+        </div>
+      </router-link>
     </div>
-    <div class="recipe-footer">
-      <div :title="recipe.title" class="recipe-title">
-        {{ recipe.title }}
-      </div>
-      <ul class="recipe-overview">
-        <li>{{ recipe.readyInMinutes }} minutes</li>
-        <li>{{ recipe.aggregateLikes }} likes</li>
-      </ul>
+    <div v-else>
+      <router-link
+        :to="{ name: 'recipe', params: { recipeId: recipe.id } }"
+        class="recipe-preview"
+      >
+        <div class="recipe-body">
+          <img :src="recipe.image" class="recipe-image" />
+        </div>
+        <div class="recipe-footer">
+          <div :title="recipe.title" class="recipe-title">
+            {{ recipe.title }}
+          </div>
+          <ul class="recipe-overview">
+            <li>{{ recipe.readyInMinutes }} minutes</li>
+            <li>{{ recipe.aggregateLikes }} likes</li>
+          </ul>
+        </div>
+      </router-link>
     </div>
-  </router-link>
+  </div>
 </template>
 
 <script>
@@ -33,6 +59,10 @@ export default {
   props: {
     recipe: {
       type: Object,
+      required: true,
+    },
+    title: {
+      type: String,
       required: true,
     },
   },
