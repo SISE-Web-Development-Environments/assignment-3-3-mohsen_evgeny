@@ -43,7 +43,7 @@
         <b-input-group prepend="Intolerance">
           <b-form-select
             id="intolerance"
-            v-model="intolerance"
+            v-model="intolerances"
             :options="intolerancesList"
           />
         </b-input-group>
@@ -51,8 +51,8 @@
         <b-input-group prepend="Sort">
           <b-form-select
             id="sort"
-            @change="useSort"
-            v-model="sort"
+            @change="sort"
+            v-model="userSort"
             :options="sortsList"
           />
         </b-input-group>
@@ -82,6 +82,7 @@
     data(){
       return{
         recipes: [],
+        firstSearch: true,
         userQuery: "",
         amount: 5,
         cuisinesList: cuisinesList,
@@ -89,9 +90,9 @@
         intolerancesList: intolerancesList,
         cuisine: null,
         diet: null,
-        intolerance: null,
+        intolerances: null,
         amountsList: [5, 10, 15],
-        sort: null,
+        userSort: null,
         sortsList: [
           //{value: null, text: "Unsorted", disabled: true},
           {value: "readyinminutes", text: "Ready in minutes"},
@@ -100,14 +101,18 @@
       }
     },
     mounted() {
-      if(!Object.keys(this.cuisinesList).includes(null)){
+      if(typeof this.cuisinesList[this.cuisinesList.length - 1].value == "undefined"){
         this.cuisinesList.push({ value: null, text: 'All'})
       }
-      if(!Object.keys(this.dietsList).includes(null)){
+      if(typeof this.dietsList[this.dietsList.length - 1].value == "undefined"){
         this.dietsList.push({value: null, text: 'All'})
       }
-      if(!Object.keys(this.intolerancesList).includes(null)){
+      if(typeof this.intolerancesList[this.intolerancesList.length - 1].value == "undefined"){
         this.intolerancesList.push({ value: null, text: 'All'})
+      }
+      
+      if(!firstSearch){
+        // get results of final search of user
       }
     },
     methods:{
@@ -121,14 +126,15 @@
           console.log(this.amount)
           console.log(this.cuisine)
           console.log(this.diet)
-          console.log(this.intolerance)
+          console.log(this.intolerances)
+          console.log(this.intolerancesList)
           const response = await this.axios.get(
             `http://localhost:3000/recipes/search/query/${this.userQuery}/amount/${this.amount}`,
             {
               params: {
                 cuisine: this.cuisine,
                 diet: this.diet,
-                intolerance: this.intolerance
+                intolerances: this.intolerances
               }
             }
           );
@@ -140,8 +146,9 @@
             return;
           }
 
-          this.sort = null;
+          this.userSort = null;
           this.recipes = recipesData;
+          firstSearch = false;
         }
         catch(error){
           console.log(error);
@@ -172,11 +179,11 @@
         this.recipes = this.recipes.sort(this.likesCompare);
       },
 
-      useSort(){
-        if(this.sort === "readyinminutes"){
+      sort(){
+        if(this.userSort === "readyinminutes"){
           this.readyInMinutesSort();
         }
-        else if(this.sort === "likes"){
+        else if(this.userSort === "likes"){
           this.likesSort();
         }
       }
