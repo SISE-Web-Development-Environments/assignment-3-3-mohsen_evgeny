@@ -13,7 +13,12 @@
               <div>Likes: {{ recipe.aggregateLikes }} likes</div>
             </div>
             Ingredients:
-            <ul>
+            <ul v-if="this.$route.params.family || this.$route.params.personal">
+              <li v-for="index in recipe.ingredients[0]" :key="index">
+                {{ index }}
+              </li>
+            </ul>
+            <ul v-else>
               <li v-for="index in recipe.ingredients" :key="index">
                 {{ index }}
               </li>
@@ -21,7 +26,12 @@
           </div>
           <div class="wrapped">
             Instructions:
-            <ol>
+            <ol v-if="this.$route.params.family || this.$route.params.personal">
+              <li v-for="s in recipe.instructions[0]" :key="s.number">
+                {{ s.step }}
+              </li>
+            </ol>
+            <ol v-else>
               <li v-for="s in recipe.instructions" :key="s.number">
                 {{ s.step }}
               </li>
