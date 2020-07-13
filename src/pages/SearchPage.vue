@@ -111,8 +111,9 @@
         this.intolerancesList.push({ value: null, text: 'All'})
       }
       
-
-      this.recipes = JSON.parse(sessionStorage.getItem("recipesData"))
+      if(this.$root.store.username){
+        this.recipes = JSON.parse(localStorage.getItem("recipesData"))
+      }
       
     },
     methods:{
@@ -148,7 +149,7 @@
 
           this.userSort = null;
           this.recipes = recipesData;
-          sessionStorage.setItem("recipesData", JSON.stringify(recipesData));
+          localStorage.setItem("recipesData", JSON.stringify(recipesData));
           this.firstSearch = false;
         }
         catch(error){
