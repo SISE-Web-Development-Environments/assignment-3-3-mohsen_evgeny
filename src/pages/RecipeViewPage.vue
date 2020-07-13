@@ -11,6 +11,7 @@
             <div class="mb-3">
               <div>Ready in {{ recipe.readyInMinutes }} minutes</div>
               <div>Likes: {{ recipe.aggregateLikes }} likes</div>
+              <div>Servings: {{ recipe.servings }} servings</div>
             </div>
             Ingredients:
             <ul v-if="this.$route.params.family || this.$route.params.personal">
