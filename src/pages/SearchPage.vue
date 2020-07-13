@@ -111,9 +111,8 @@
         this.intolerancesList.push({ value: null, text: 'All'})
       }
       
-      if(this.$root.store.username){
-        this.recipes = JSON.parse(localStorage.getItem("recipesData"))
-      }
+      this.recipes = this.$root.store.searched_recipes;
+      
       
     },
     methods:{
@@ -123,12 +122,12 @@
 
       async search(){
         try {
-          console.log(this.userQuery)
-          console.log(this.amount)
-          console.log(this.cuisine)
-          console.log(this.diet)
-          console.log(this.intolerances)
-          console.log(this.intolerancesList)
+          // console.log(this.userQuery)
+          // console.log(this.amount)
+          // console.log(this.cuisine)
+          // console.log(this.diet)
+          // console.log(this.intolerances)
+          // console.log(this.intolerancesList)
           const response = await this.axios.get(
             `http://localhost:3000/recipes/search/query/${this.userQuery}/amount/${this.amount}`,
             {
@@ -149,7 +148,8 @@
 
           this.userSort = null;
           this.recipes = recipesData;
-          localStorage.setItem("recipesData", JSON.stringify(recipesData));
+          this.$root.store.searched_recipes = recipesData;
+          // localStorage.setItem("recipesData", JSON.stringify(recipesData));
           this.firstSearch = false;
         }
         catch(error){

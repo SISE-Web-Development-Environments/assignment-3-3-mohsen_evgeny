@@ -85,6 +85,11 @@ const shared_data = {
     localStorage.removeItem("username");
     this.username = undefined;
   },
+
+  searched_recipes: [
+
+  ],
+  
 };
 console.log(shared_data);
 // Vue.prototype.$root.store = shared_data;
