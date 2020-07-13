@@ -10,6 +10,9 @@
       <router-link tag="b-nav-item" :to="{ name: 'search' }"
         >Search</router-link
       >
+      <router-link tag="b-nav-item" :to="{ name: 'about' }"
+        >About</router-link
+      >
     </b-navbar-nav>
 
     <!-- right components in nav bar -->
