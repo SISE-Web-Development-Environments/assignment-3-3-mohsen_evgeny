@@ -10,7 +10,7 @@
         <RecipePreviewList
           title="Randome Recipes"
           class="RandomRecipes center"
-          :recipes="recipes"
+          :recipes="randomRecipes"
         />
       </b-col>
       <!-- show for un loggedin users -->
@@ -26,7 +26,7 @@
             blur: !$root.store.username,
             center: true,
           }"
-          :recipes="recipes"
+          :recipes="watchedRecipes"
           disabled
         ></RecipePreviewList>
       </b-col>
@@ -46,7 +46,8 @@ export default {
   },
   data() {
     return {
-      recipes: [],
+      randomRecipes: [],
+      watchedRecipes: [],
     };
   },
   mounted() {
@@ -55,14 +56,22 @@ export default {
   methods: {
     async updateRecipes() {
       try {
-        const response = await this.axios.get(
+        const randomResponse = await this.axios.get(
           // "https://ass-3-2-mohsen-evgeny.herokuapp.com/recipes/random"
           "http://localhost:3000/recipes/random"
         );
 
-        const recipes = response.data; // change to data
-        this.recipes = [];
-        this.recipes.push(...recipes);
+        const randomRecipes = randomResponse.data; // change to data
+        this.randomRecipes = [];
+        this.randomRecipes.push(...randomRecipes);
+
+        const watchedResponse = await this.axios.get(
+          // "https://ass-3-2-mohsen-evgeny.herokuapp.com/recipes/random"
+          "http://localhost:3000/user/watched"
+        );
+        const watchedRecipes = watchedResponse.data; // change to data
+        this.watchedRecipes = [];
+        this.watchedRecipes.push(...watchedRecipes);
       } catch (error) {
         console.log(error);
       }
