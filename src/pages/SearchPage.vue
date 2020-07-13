@@ -82,7 +82,6 @@
     data(){
       return{
         recipes: [],
-        firstSearch: true,
         userQuery: "",
         amount: 5,
         cuisinesList: cuisinesList,
@@ -128,6 +127,10 @@
           // console.log(this.diet)
           // console.log(this.intolerances)
           // console.log(this.intolerancesList)
+          if(this.userQuery === ""){
+            this.$root.toast("Empty query", "Please, give a proper query");
+          }
+
           const response = await this.axios.get(
             `http://localhost:3000/recipes/search/query/${this.userQuery}/amount/${this.amount}`,
             {
@@ -142,7 +145,8 @@
           let recipesData = response.data;
 
           if(recipesData.length === 0){
-            alert("No search results");
+            this.$root.toast("0 results", "No recipe found");
+            this.recipes = [];
             return;
           }
 
@@ -150,7 +154,6 @@
           this.recipes = recipesData;
           this.$root.store.searched_recipes = recipesData;
           // localStorage.setItem("recipesData", JSON.stringify(recipesData));
-          this.firstSearch = false;
         }
         catch(error){
           console.log(error);
