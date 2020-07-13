@@ -111,9 +111,9 @@
         this.intolerancesList.push({ value: null, text: 'All'})
       }
       
-      if(!firstSearch){
-        // get results of final search of user
-      }
+
+      this.recipes = JSON.parse(sessionStorage.getItem("recipesData"))
+      
     },
     methods:{
       getQuery(query){
@@ -148,7 +148,8 @@
 
           this.userSort = null;
           this.recipes = recipesData;
-          firstSearch = false;
+          sessionStorage.setItem("recipesData", JSON.stringify(recipesData));
+          this.firstSearch = false;
         }
         catch(error){
           console.log(error);
