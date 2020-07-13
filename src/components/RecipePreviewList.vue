@@ -4,7 +4,6 @@
       {{ title }}
       <slot></slot>
     </h3>
-    <button @click="updateRecipes">Renew</button>
     <b-row v-for="r in recipes" :key="r.id">
       <RecipePreview class="recipePreview" :recipe="r" :title="title" />
       <br />

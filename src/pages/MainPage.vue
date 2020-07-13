@@ -7,11 +7,12 @@
     </b-row>
     <b-row>
       <b-col>
+        <button @click="updateRecipes">Renew</button>
         <RecipePreviewList
           title="Random Recipes"
           class="RandomRecipes center"
-          :recipes="recipes"
         />
+
       </b-col>
       <!-- show for un loggedin users -->
       <b-col v-if="!$root.store.username">
@@ -61,8 +62,7 @@ export default {
         );
 
         const recipes = response.data; // change to data
-        this.recipes = [];
-        this.recipes.push(...recipes);
+        this.recipes = recipes;
       } catch (error) {
         console.log(error);
       }
