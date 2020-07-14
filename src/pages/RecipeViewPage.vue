@@ -55,6 +55,19 @@ export default {
       recipe: null,
     };
   },
+  async mounted() {
+    //add to watch list
+    try {
+      await this.axios.post(
+        `http://localhost:3000/user/recipeInfo/add/${this.$route.params.recipeId}`,
+        {
+          isSaved: 0,
+        }
+      );
+    } catch (err) {
+      console.log(err);
+    }
+  },
   async created() {
     try {
       let response;
