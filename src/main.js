@@ -4,8 +4,8 @@ import VueAxios from "vue-axios";
 import axios from "axios";
 axios.defaults.withCredentials = true;
 
-import { InputGroupPlugin } from 'bootstrap-vue'
-Vue.use(InputGroupPlugin)
+import { InputGroupPlugin } from "bootstrap-vue";
+Vue.use(InputGroupPlugin);
 
 import routes from "./routes";
 import VueRouter from "vue-router";
@@ -86,24 +86,25 @@ const shared_data = {
     this.username = undefined;
   },
 
-  searched_recipes: [
-
-  ],
-  
+  searched_recipes: [],
 };
 console.log(shared_data);
 // Vue.prototype.$root.store = shared_data;
 
 //if cookie is expired!
-// router.beforeEach((to, from, next) => {
-//   if (shared_data.username === undefined || !Vue.$cookie.get("session")) {
-//     shared_data.logout();
+router.beforeEach((to, from, next) => {
+  if (shared_data.username === undefined || !Vue.$cookies.get("session")) {
+    shared_data.logout();
 
-//     next({ name: "main" });
-//   } else {
-//     next();
-//   }
-// });
+    if (to.matched.some((route) => route.meta.requiresAuth)) {
+      next({ name: "main" });
+    } else {
+      next();
+    }
+  } else {
+    next();
+  }
+});
 
 new Vue({
   router,

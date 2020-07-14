@@ -65,13 +65,15 @@ export default {
         this.randomRecipes = [];
         this.randomRecipes.push(...randomRecipes);
 
-        const watchedResponse = await this.axios.get(
-          // "https://ass-3-2-mohsen-evgeny.herokuapp.com/recipes/random"
-          "http://localhost:3000/user/watched"
-        );
-        const watchedRecipes = watchedResponse.data; // change to data
-        this.watchedRecipes = [];
-        this.watchedRecipes.push(...watchedRecipes);
+        if (this.$root.store.username) {
+          const watchedResponse = await this.axios.get(
+            // "https://ass-3-2-mohsen-evgeny.herokuapp.com/recipes/random"
+            "http://localhost:3000/user/watched"
+          );
+          const watchedRecipes = watchedResponse.data; // change to data
+          this.watchedRecipes = [];
+          this.watchedRecipes.push(...watchedRecipes);
+        }
       } catch (error) {
         console.log(error);
       }
