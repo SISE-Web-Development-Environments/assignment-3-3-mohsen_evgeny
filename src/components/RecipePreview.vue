@@ -41,7 +41,6 @@
       <router-link
         :to="{ name: 'recipe', params: { recipeId: recipe.id } }"
         class="recipe-preview"
-        @click="addToWatched"
       >
           <div class="recipe-body">
             <img :src="recipe.image" class="recipe-image" />
@@ -69,8 +68,7 @@
               <span v-else>❌</span>
             </li>
             <li>
-              Seen <span v-if="recipe.isWatched">✔️</span>
-              <span v-else>❌</span>
+              Watched {{ this.watched }} 
             </li>
             <li>
               Favorite {{ this.favorite }}
@@ -86,11 +84,13 @@
 export default {
   mounted() {
     this.getIsFavorite();
+    this.getIsWatched();
   },
 
   data() {
     return {
-      favorite: "❌"
+      favorite: "❌",
+      watched: "❌"
     };
   },
   props: {
@@ -116,8 +116,15 @@ export default {
         }
     },
 
-    async isWatched(){
+    async getIsWatched(){
+              const favorite = await this.axios.get(
+          // "https://ass-3-2-mohsen-evgeny.herokuapp.com/recipes/random"
+          `http://localhost:3000/user/favorites/${this.recipe.id}`
+        );
 
+        if(favorite["data"].length > 0 && favorite["data"][0].isWatched){
+          this.watched = "✔️";;
+        }
     },
 
     async addToFavorite(){
