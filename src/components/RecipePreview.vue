@@ -16,8 +16,22 @@
             {{ recipe.title }}
           </div>
           <ul class="recipe-overview">
-            <li>{{ recipe.readyInMinutes }} minutes</li>
+            <li>{{ recipe.readyInMinutes }} minutessadasdsa</li>
             <li>{{ recipe.aggregateLikes }} likes</li>
+          </ul>
+          <ul class="recipe-overview">
+            <li>
+              vegetarian <span v-if="recipe.vegetarian">✔️</span>
+              <span v-else>❌</span>
+            </li>
+
+            <li>
+              vegan <span v-if="recipe.vegan">✔️</span> <span v-else>❌</span>
+            </li>
+            <li>
+              glutenFree <span v-if="recipe.glutenFree">✔️</span>
+              <span v-else>❌</span>
+            </li>
           </ul>
         </div>
       </router-link>
@@ -37,6 +51,20 @@
           <ul class="recipe-overview">
             <li>{{ recipe.readyInMinutes }} minutes</li>
             <li>{{ recipe.aggregateLikes }} likes</li>
+          </ul>
+          <ul class="recipe-overview">
+            <li>
+              vegetarian <span v-if="recipe.vegetarian">✔️</span>
+              <span v-else>❌</span>
+            </li>
+
+            <li>
+              vegan <span v-if="recipe.vegan">✔️</span> <span v-else>❌</span>
+            </li>
+            <li>
+              glutenFree <span v-if="recipe.glutenFree">✔️</span>
+              <span v-else>❌</span>
+            </li>
           </ul>
         </div>
       </router-link>
@@ -80,7 +108,7 @@ export default {
 }
 .recipe-preview > .recipe-body {
   width: 100%;
-  height: 200px;
+  height: 100%;
   position: relative;
 }
 
@@ -99,7 +127,7 @@ export default {
 
 .recipe-preview .recipe-footer {
   width: 100%;
-  height: 50%;
+  /* height: 50%; */
   overflow: hidden;
 }
 
