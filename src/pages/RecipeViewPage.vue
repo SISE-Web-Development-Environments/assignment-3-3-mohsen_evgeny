@@ -13,7 +13,7 @@
               <div>Likes: {{ recipe.aggregateLikes }} likes</div>
               <div>Servings: {{ recipe.servings }} servings</div>
 
-              <button @click="addToFavorite">Save</button>
+              <button v-show="!isHidden" @click="addToFavorite">Save</button>
             </div>
             Ingredients:
             <ul v-if="this.$route.params.family || this.$route.params.personal">
@@ -56,6 +56,7 @@ export default {
   data() {
     return {
       recipe: null,
+      isHidden: true,
     };
   },
   async mounted() {
@@ -89,6 +90,16 @@ export default {
             // `http://localhost:3000/user/getPersonalRecipeInfo/${this.$route.params.recipeId}`
           );
         }
+
+        const favorite = await this.axios.get(
+          // "https://ass-3-2-mohsen-evgeny.herokuapp.com/recipes/random"
+          `http://localhost:3000/user/favorites/${this.$route.params.recipeId}`
+        );
+
+        if(favorite["data"].length == 0 || !favorite["data"][0].isSaved) {
+          this.isHidden = false;
+        }
+
       } catch (error) {
         console.log("error.response.status", error.response.status);
         this.$router.replace("/NotFound");

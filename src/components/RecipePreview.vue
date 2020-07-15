@@ -79,16 +79,16 @@
 
 <script>
 export default {
-  mounted() {
+  async created() {
      this.getIsFavorite();
      this.getIsWatched();
   },
 
   data() {
     return {
-      favorite: "❌",
-      watched: "❌",
-      isHidden: false,
+      favorite: null,
+      watched: null,
+      isHidden: true,
     };
   },
   props: {
@@ -111,8 +111,10 @@ export default {
 
       if (favorite["data"].length > 0 && favorite["data"][0].isSaved) {
         this.favorite = "✔️";
-        this.isHidden = true;
+        return;
       }
+      this.isHidden = false;
+      this.favorite = "❌";
     },
 
     async getIsWatched() {
@@ -123,7 +125,9 @@ export default {
 
       if (favorite["data"].length > 0 && favorite["data"][0].isWatched) {
         this.watched = "✔️";
+        return;
       }
+      this.watched = "❌";
     },
 
     async addToFavorite() {
