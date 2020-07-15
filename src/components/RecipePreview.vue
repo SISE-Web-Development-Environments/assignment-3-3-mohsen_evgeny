@@ -69,7 +69,7 @@
           <li>Watched {{ this.watched }}</li>
           <li>
             Favorite {{ this.favorite }}
-            <button @click="addToFavorite">Save</button>
+            <button v-show="!isHidden" @click="addToFavorite">Save</button>
           </li>
         </ul>
       </div>
@@ -80,14 +80,15 @@
 <script>
 export default {
   mounted() {
-    // this.getIsFavorite();
-    // this.getIsWatched();
+     this.getIsFavorite();
+     this.getIsWatched();
   },
 
   data() {
     return {
       favorite: "❌",
       watched: "❌",
+      isHidden: false,
     };
   },
   props: {
@@ -110,6 +111,7 @@ export default {
 
       if (favorite["data"].length > 0 && favorite["data"][0].isSaved) {
         this.favorite = "✔️";
+        this.isHidden = true;
       }
     },
 
@@ -134,6 +136,7 @@ export default {
           }
         );
         this.favorite = "✔️";
+        this.isHidden = true;
       } catch (error) {
         console.log(error);
       }
