@@ -93,16 +93,19 @@ console.log(shared_data);
 
 //if cookie is expired!
 router.beforeEach((to, from, next) => {
-  if (shared_data.username === undefined || !Vue.$cookies.get("session")) {
-    shared_data.logout();
-
-    if (to.matched.some((route) => route.meta.requiresAuth)) {
-      next({ name: "main" });
+  if (shared_data.username === undefined && !Vue.$cookies.get("session")) {
+    next();
+  } else {
+    if (!Vue.$cookies.get("session")) {
+      shared_data.logout();
+      if (to.matched.some((route) => route.meta.requiresAuth)) {
+        next({ name: "main" });
+      } else {
+        next();
+      }
     } else {
       next();
     }
-  } else {
-    next();
   }
 });
 

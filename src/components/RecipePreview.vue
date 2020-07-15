@@ -8,74 +8,71 @@
         }"
         class="recipe-preview"
       >
-          <div class="recipe-body">
-            <img :src="recipe.image" class="recipe-image" />
-          </div>
-        </router-link>
-        <div class="recipe-footer">
-          <div :title="recipe.title" class="recipe-title">
-            {{ recipe.title }}
-          </div>
-          <ul class="recipe-overview">
-            <li>{{ recipe.readyInMinutes }} minutessadasdsa</li>
-            <li>{{ recipe.aggregateLikes }} likes</li>
-          </ul>
-          <ul class="recipe-overview">
-            <li>
-              vegetarian <span v-if="recipe.vegetarian">✔️</span>
-              <span v-else>❌</span>
-            </li>
-
-            <li>
-              vegan <span v-if="recipe.vegan">✔️</span> <span v-else>❌</span>
-            </li>
-            <li>
-              glutenFree <span v-if="recipe.glutenFree">✔️</span>
-              <span v-else>❌</span>
-            </li>
-          </ul>
+        <div class="recipe-body">
+          <img :src="recipe.image" class="recipe-image" />
         </div>
-      
+      </router-link>
+      <div class="recipe-footer">
+        <div :title="recipe.title" class="recipe-title">
+          {{ recipe.title }}
+        </div>
+        <ul class="recipe-overview">
+          <li>{{ recipe.readyInMinutes }} minutessadasdsa</li>
+          <li>{{ recipe.aggregateLikes }} likes</li>
+        </ul>
+        <ul class="recipe-overview">
+          <li>
+            vegetarian <span v-if="recipe.vegetarian">✔️</span>
+            <span v-else>❌</span>
+          </li>
+
+          <li>
+            vegan <span v-if="recipe.vegan">✔️</span> <span v-else>❌</span>
+          </li>
+          <li>
+            glutenFree <span v-if="recipe.glutenFree">✔️</span>
+            <span v-else>❌</span>
+          </li>
+        </ul>
+      </div>
     </div>
     <div v-else>
       <router-link
         :to="{ name: 'recipe', params: { recipeId: recipe.id } }"
         class="recipe-preview"
       >
-          <div class="recipe-body">
-            <img :src="recipe.image" class="recipe-image" />
-          </div>
-        </router-link>
-        <div class="recipe-footer">
-          <div :title="recipe.title" class="recipe-title">
-            {{ recipe.title }}
-          </div>
-          <ul class="recipe-overview">
-            <li>{{ recipe.readyInMinutes }} minutes</li>
-            <li>{{ recipe.aggregateLikes }} likes</li>
-          </ul>
-          <ul class="recipe-overview">
-            <li>
-              vegetarian <span v-if="recipe.vegetarian">✔️</span>
-              <span v-else>❌</span>
-            </li>
-
-            <li>
-              vegan <span v-if="recipe.vegan">✔️</span> <span v-else>❌</span>
-            </li>
-            <li>
-              glutenFree <span v-if="recipe.glutenFree">✔️</span>
-              <span v-else>❌</span>
-            </li>
-            <li>
-              Watched {{ this.watched }} 
-            </li>
-            <li>
-              Favorite {{ this.favorite }}
-              <button @click="addToFavorite">Save</button>
-            </li>
-          </ul>
+        <div class="recipe-body">
+          <img :src="recipe.image" class="recipe-image" />
         </div>
+      </router-link>
+      <div class="recipe-footer">
+        <div :title="recipe.title" class="recipe-title">
+          {{ recipe.title }}
+        </div>
+        <ul class="recipe-overview">
+          <li>{{ recipe.readyInMinutes }} minutes</li>
+          <li>{{ recipe.aggregateLikes }} likes</li>
+        </ul>
+        <ul class="recipe-overview">
+          <li>
+            vegetarian <span v-if="recipe.vegetarian">✔️</span>
+            <span v-else>❌</span>
+          </li>
+
+          <li>
+            vegan <span v-if="recipe.vegan">✔️</span> <span v-else>❌</span>
+          </li>
+          <li>
+            glutenFree <span v-if="recipe.glutenFree">✔️</span>
+            <span v-else>❌</span>
+          </li>
+          <li>Watched {{ this.watched }}</li>
+          <li>
+            Favorite {{ this.favorite }}
+            <button @click="addToFavorite">Save</button>
+          </li>
+        </ul>
+      </div>
     </div>
   </div>
 </template>
@@ -83,14 +80,14 @@
 <script>
 export default {
   mounted() {
-    this.getIsFavorite();
-    this.getIsWatched();
+    // this.getIsFavorite();
+    // this.getIsWatched();
   },
 
   data() {
     return {
       favorite: "❌",
-      watched: "❌"
+      watched: "❌",
     };
   },
   props: {
@@ -105,30 +102,30 @@ export default {
   },
 
   methods: {
-    async getIsFavorite(){
-        const favorite = await this.axios.get(
-          // "https://ass-3-2-mohsen-evgeny.herokuapp.com/recipes/random"
-          `http://localhost:3000/user/favorites/${this.recipe.id}`
-        );
+    async getIsFavorite() {
+      const favorite = await this.axios.get(
+        // "https://ass-3-2-mohsen-evgeny.herokuapp.com/recipes/random"
+        `http://localhost:3000/user/favorites/${this.recipe.id}`
+      );
 
-        if(favorite["data"].length > 0 && favorite["data"][0].isSaved){
-          this.favorite = "✔️";;
-        }
+      if (favorite["data"].length > 0 && favorite["data"][0].isSaved) {
+        this.favorite = "✔️";
+      }
     },
 
-    async getIsWatched(){
-              const favorite = await this.axios.get(
-          // "https://ass-3-2-mohsen-evgeny.herokuapp.com/recipes/random"
-          `http://localhost:3000/user/favorites/${this.recipe.id}`
-        );
+    async getIsWatched() {
+      const favorite = await this.axios.get(
+        // "https://ass-3-2-mohsen-evgeny.herokuapp.com/recipes/random"
+        `http://localhost:3000/user/favorites/${this.recipe.id}`
+      );
 
-        if(favorite["data"].length > 0 && favorite["data"][0].isWatched){
-          this.watched = "✔️";;
-        }
+      if (favorite["data"].length > 0 && favorite["data"][0].isWatched) {
+        this.watched = "✔️";
+      }
     },
 
-    async addToFavorite(){
-      try{
+    async addToFavorite() {
+      try {
         await this.axios.post(
           // "https://ass-3-2-mohsen-evgeny.herokuapp.com/recipes/random"
           `http://localhost:3000/user/recipeInfo/add/${this.recipe.id}`,
@@ -137,12 +134,11 @@ export default {
           }
         );
         this.favorite = "✔️";
-      }
-      catch(error){
+      } catch (error) {
         console.log(error);
       }
     },
-  }
+  },
 };
 </script>
 

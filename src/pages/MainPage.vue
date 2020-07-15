@@ -7,19 +7,19 @@
     </b-row>
     <b-row>
       <b-col>
-        <button @click="updateRecipes">Renew</button>
         <RecipePreviewList
           title="Random Recipes"
           class="RandomRecipes center"
           :recipes="randomRecipes"
-        />
-
+        >
+          <button @click="updateRecipes">Refresh</button>
+        </RecipePreviewList>
       </b-col>
       <!-- show for un loggedin users -->
       <b-col v-if="!$root.store.username">
         <LoginPage />
       </b-col>
-      <b-col v-else>
+      <b-col v-else v-bind:class="updateWatched()">
         <!-- TODO Change to RecipePreviewListUser -->
         <RecipePreviewList
           title="Last Viewed Recipes"
@@ -50,12 +50,25 @@ export default {
     return {
       randomRecipes: [],
       watchedRecipes: [],
+      bool: false,
     };
   },
   mounted() {
     this.updateRecipes();
   },
   methods: {
+    async updateWatched() {
+      if (!this.bool) {
+        const watchedResponse = await this.axios.get(
+          // "https://ass-3-2-mohsen-evgeny.herokuapp.com/recipes/random"
+          "http://localhost:3000/user/watched"
+        );
+        const watchedRecipes = watchedResponse.data; // change to data
+        this.watchedRecipes = [];
+        this.watchedRecipes.push(...watchedRecipes);
+        this.bool = true;
+      }
+    },
     async updateRecipes() {
       try {
         const randomResponse = await this.axios.get(
@@ -66,16 +79,6 @@ export default {
         const randomRecipes = randomResponse.data; // change to data
         this.randomRecipes = [];
         this.randomRecipes.push(...randomRecipes);
-
-        if (this.$root.store.username) {
-          const watchedResponse = await this.axios.get(
-            // "https://ass-3-2-mohsen-evgeny.herokuapp.com/recipes/random"
-            "http://localhost:3000/user/watched"
-          );
-          const watchedRecipes = watchedResponse.data; // change to data
-          this.watchedRecipes = [];
-          this.watchedRecipes.push(...watchedRecipes);
-        }
       } catch (error) {
         console.log(error);
       }
@@ -85,15 +88,15 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-  .RandomRecipes {
-    margin: 10px 0 10px;
-  }
-  .blur {
-    -webkit-filter: blur(5px); /* Safari 6.0 - 9.0 */
-    filter: blur(2px);
-  }
-  ::v-deep .blur .recipe-preview {
-    pointer-events: none;
-    cursor: default;
-  }
+.RandomRecipes {
+  margin: 10px 0 10px;
+}
+.blur {
+  -webkit-filter: blur(5px); /* Safari 6.0 - 9.0 */
+  filter: blur(2px);
+}
+::v-deep .blur .recipe-preview {
+  pointer-events: none;
+  cursor: default;
+}
 </style>
