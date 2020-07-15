@@ -73,8 +73,7 @@
               <span v-else>❌</span>
             </li>
             <li>
-              Favorite <span v-if="recipe['isSaved']">✔️</span>
-              <span v-else>❌</span>
+              Favorite {{ this.favorite }}
               <button @click="addToFavorite">Save</button>
             </li>
           </ul>
@@ -91,7 +90,7 @@ export default {
 
   data() {
     return {
-      
+      favorite: "❌"
     };
   },
   props: {
@@ -107,14 +106,13 @@ export default {
 
   methods: {
     async getIsFavorite(){
-        this.recipe["isSaved"] = false;
         const favorite = await this.axios.get(
           // "https://ass-3-2-mohsen-evgeny.herokuapp.com/recipes/random"
           `http://localhost:3000/user/favorites/${this.recipe.id}`
         );
 
-        if(favorite["data"].length > 0 && this.recipe.id === favorite["data"][0].RecipeApiId){
-          this.recipe["isSaved"] = favorite["data"][0].isSaved;
+        if(favorite["data"].length > 0 && favorite["data"][0].isSaved){
+          this.favorite = "✔️";;
         }
     },
 
@@ -131,7 +129,7 @@ export default {
             isSaved: 1,
           }
         );
-        this.recipe["isSaved"] = true;
+        this.favorite = "✔️";
       }
       catch(error){
         console.log(error);
