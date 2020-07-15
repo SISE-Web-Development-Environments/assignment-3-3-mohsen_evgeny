@@ -12,6 +12,8 @@
               <div>Ready in {{ recipe.readyInMinutes }} minutes</div>
               <div>Likes: {{ recipe.aggregateLikes }} likes</div>
               <div>Servings: {{ recipe.servings }} servings</div>
+
+              <button @click="addToFavorite">Save</button>
             </div>
             Ingredients:
             <ul v-if="this.$route.params.family || this.$route.params.personal">
@@ -104,6 +106,24 @@ export default {
       console.log(error);
     }
   },
+
+  methods:{
+    async addToFavorite(){
+      try{
+        await this.axios.post(
+          // "https://ass-3-2-mohsen-evgeny.herokuapp.com/recipes/random"
+          `http://localhost:3000/user/recipeInfo/add/${this.recipe.id}`,
+          {
+            isSaved: 1,
+          }
+        );
+        this.recipe["isSaved"] = true;
+      }
+      catch(error){
+        console.log(error);
+      }
+    },
+  }
 };
 </script>
 

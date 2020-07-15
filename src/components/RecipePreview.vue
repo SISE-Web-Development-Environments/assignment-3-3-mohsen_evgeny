@@ -8,9 +8,10 @@
         }"
         class="recipe-preview"
       >
-        <div class="recipe-body">
-          <img :src="recipe.image" class="recipe-image" />
-        </div>
+          <div class="recipe-body">
+            <img :src="recipe.image" class="recipe-image" />
+          </div>
+        </router-link>
         <div class="recipe-footer">
           <div :title="recipe.title" class="recipe-title">
             {{ recipe.title }}
@@ -34,16 +35,18 @@
             </li>
           </ul>
         </div>
-      </router-link>
+      
     </div>
     <div v-else>
       <router-link
         :to="{ name: 'recipe', params: { recipeId: recipe.id } }"
         class="recipe-preview"
+        @click="addToWatched"
       >
-        <div class="recipe-body">
-          <img :src="recipe.image" class="recipe-image" />
-        </div>
+          <div class="recipe-body">
+            <img :src="recipe.image" class="recipe-image" />
+          </div>
+        </router-link>
         <div class="recipe-footer">
           <div :title="recipe.title" class="recipe-title">
             {{ recipe.title }}
@@ -65,9 +68,17 @@
               glutenFree <span v-if="recipe.glutenFree">✔️</span>
               <span v-else>❌</span>
             </li>
+            <li>
+              Seen <span v-if="recipe.isWatched">✔️</span>
+              <span v-else>❌</span>
+            </li>
+            <li>
+              Favorite <span v-if="recipe['isSaved']">✔️</span>
+              <span v-else>❌</span>
+              <button @click="addToFavorite">Save</button>
+            </li>
           </ul>
         </div>
-      </router-link>
     </div>
   </div>
 </template>
@@ -75,13 +86,12 @@
 <script>
 export default {
   mounted() {
-    // this.axios.get(this.recipe.image).then((i) => {
-    //   this.image_load = true;
-    // });
+    this.getIsFavorite();
   },
+
   data() {
     return {
-      // image_load: false,
+      
     };
   },
   props: {
@@ -94,6 +104,40 @@ export default {
       required: true,
     },
   },
+
+  methods: {
+    async getIsFavorite(){
+        this.recipe["isSaved"] = false;
+        const favorite = await this.axios.get(
+          // "https://ass-3-2-mohsen-evgeny.herokuapp.com/recipes/random"
+          `http://localhost:3000/user/favorites/${this.recipe.id}`
+        );
+
+        if(favorite["data"].length > 0 && this.recipe.id === favorite["data"][0].RecipeApiId){
+          this.recipe["isSaved"] = favorite["data"][0].isSaved;
+        }
+    },
+
+    async isWatched(){
+
+    },
+
+    async addToFavorite(){
+      try{
+        await this.axios.post(
+          // "https://ass-3-2-mohsen-evgeny.herokuapp.com/recipes/random"
+          `http://localhost:3000/user/recipeInfo/add/${this.recipe.id}`,
+          {
+            isSaved: 1,
+          }
+        );
+        this.recipe["isSaved"] = true;
+      }
+      catch(error){
+        console.log(error);
+      }
+    },
+  }
 };
 </script>
 
