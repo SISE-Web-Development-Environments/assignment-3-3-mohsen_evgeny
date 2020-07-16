@@ -12,7 +12,7 @@
           class="RandomRecipes center"
           :recipes="randomRecipes"
         >
-          <button @click="updateRecipes">Refresh</button>
+          <button @click="updateRecipes">🔄</button>
         </RecipePreviewList>
       </b-col>
       <!-- show for un loggedin users -->
@@ -98,5 +98,13 @@ export default {
 ::v-deep .blur .recipe-preview {
   pointer-events: none;
   cursor: default;
+}
+button {
+  background-color: Transparent;
+  background-repeat: no-repeat;
+  border: none;
+  cursor: pointer;
+  overflow: hidden;
+  outline: none;
 }
 </style>

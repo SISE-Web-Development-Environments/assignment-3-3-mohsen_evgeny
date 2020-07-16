@@ -104,7 +104,7 @@ export default {
         try {
           // this.$router.go("/#/"); //redirect to main page !!!!!
           //this.$router.push("/").catch(() => {
-            this.$forceUpdate();
+          this.$forceUpdate();
           //});
         } catch (err) {
           console.log(err.response);
@@ -131,5 +131,11 @@ export default {
 <style lang="scss" scoped>
 .container {
   max-width: 400px;
+}
+
+.btn-primary {
+  color: #fff;
+  background-color: black;
+  border-color: black;
 }
 </style>

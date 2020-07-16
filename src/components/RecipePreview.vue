@@ -1,12 +1,11 @@
 <template>
-  <div>
+  <div class="recipe-preview">
     <div v-if="title == 'Personal Recipes'">
       <router-link
         :to="{
           name: 'recipe',
           params: { recipeId: recipe.id, personal: true },
         }"
-        class="recipe-preview"
       >
         <div class="recipe-body">
           <img :src="recipe.image" class="recipe-image" />
@@ -22,21 +21,24 @@
         </ul>
         <ul class="recipe-overview">
           <li>
-            vegetarian <span v-if="recipe.vegetarian">✔️</span>
+            vegetarian<br />
+            <span v-if="recipe.vegetarian">✔️</span>
             <span v-else>❌</span>
           </li>
 
           <li>
-            vegan <span v-if="recipe.vegan">✔️</span> <span v-else>❌</span>
+            vegan <br /><span v-if="recipe.vegan">✔️</span>
+            <span v-else>❌</span>
           </li>
           <li>
-            glutenFree <span v-if="recipe.glutenFree">✔️</span>
+            glutenFree<br />
+            <span v-if="recipe.glutenFree">✔️</span>
             <span v-else>❌</span>
           </li>
         </ul>
       </div>
     </div>
-    <div v-else>
+    <div v-else class="recipe-preview">
       <router-link
         :to="{ name: 'recipe', params: { recipeId: recipe.id } }"
         class="recipe-preview"
@@ -55,22 +57,27 @@
         </ul>
         <ul class="recipe-overview">
           <li>
-            vegetarian <span v-if="recipe.vegetarian">✔️</span>
+            vegetarian<br />
+            <span v-if="recipe.vegetarian">✔️</span>
             <span v-else>❌</span>
           </li>
 
           <li>
-            vegan <span v-if="recipe.vegan">✔️</span> <span v-else>❌</span>
-          </li>
-          <li>
-            glutenFree <span v-if="recipe.glutenFree">✔️</span>
+            vegan<br />
+            <span v-if="recipe.vegan"> ✔️</span>
             <span v-else>❌</span>
           </li>
-          <li>Watched {{ this.watched }}</li>
           <li>
-            Favorite {{ this.favorite }}
-            <button v-show="!isHidden" @click="addToFavorite">Save</button>
+            glutenFree <br /><span v-if="recipe.glutenFree">✔️</span>
+            <span v-else>❌</span>
           </li>
+          <span v-if="this.$root.store.username">
+            <li>Watched <br />{{ this.watched }}</li>
+            <li>
+              Favorite <br />{{ this.favorite }}
+              <button v-show="!isHidden" @click="addToFavorite">🤍</button>
+            </li>
+          </span>
         </ul>
       </div>
     </div>
@@ -80,14 +87,16 @@
 <script>
 export default {
   async created() {
-     this.getIsFavorite();
-     this.getIsWatched();
+    if (this.$root.store.username) {
+      this.getIsFavorite();
+      this.getIsWatched();
+    }
   },
 
   data() {
     return {
       favorite: null,
-      watched: null,
+      watched: "❌",
       isHidden: true,
     };
   },
@@ -110,11 +119,11 @@ export default {
       );
 
       if (favorite["data"].length > 0 && favorite["data"][0].isSaved) {
-        this.favorite = "✔️";
+        this.favorite = "❤️";
         return;
       }
       this.isHidden = false;
-      this.favorite = "❌";
+      // this.favorite = "🤍";
     },
 
     async getIsWatched() {
@@ -132,7 +141,7 @@ export default {
 
     async addToFavorite() {
       try {
-        if(this.watched){
+        if (this.watched) {
           await this.axios.put(
             // "https://ass-3-2-mohsen-evgeny.herokuapp.com/recipes/random"
             `http://localhost:3000/user/recipeInfo/update/${this.recipe.id}`,
@@ -140,8 +149,7 @@ export default {
               isSaved: 1,
             }
           );
-        }
-        else{
+        } else {
           await this.axios.post(
             // "https://ass-3-2-mohsen-evgeny.herokuapp.com/recipes/random"
             `http://localhost:3000/user/recipeInfo/add/${this.recipe.id}`,
@@ -150,7 +158,7 @@ export default {
             }
           );
         }
-        this.favorite = "✔️";
+        this.favorite = "❤️";
         this.isHidden = true;
       } catch (error) {
         console.log(error);
@@ -163,22 +171,23 @@ export default {
 <style scoped>
 .recipe-preview {
   display: inline-block;
-  width: 90%;
+  width: 100%;
   height: 100%;
   position: relative;
-  margin: 10px 10px;
+  /* margin-top: 10px; */
   border-style: solid;
 }
 .recipe-preview > .recipe-body {
   width: 100%;
   height: 100%;
   position: relative;
+  /* margin-top: 10px; */
 }
 
 .recipe-preview .recipe-body .recipe-image {
   margin-left: auto;
   margin-right: auto;
-  margin-top: auto;
+  /* margin-top: auto; */
   margin-bottom: auto;
   display: block;
   width: 100%;
@@ -198,6 +207,7 @@ export default {
   padding: 10px 10px;
   width: 100%;
   font-size: 12pt;
+  font-weight: bold;
   text-align: left;
   white-space: nowrap;
   overflow: hidden;
@@ -235,5 +245,14 @@ export default {
   width: 90px;
   display: table-cell;
   text-align: center;
+}
+
+button {
+  background-color: Transparent;
+  background-repeat: no-repeat;
+  border: none;
+  cursor: pointer;
+  overflow: hidden;
+  outline: none;
 }
 </style>
