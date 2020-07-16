@@ -103,9 +103,9 @@ export default {
         this.$root.store.login(this.form.username);
         try {
           // this.$router.go("/#/"); //redirect to main page !!!!!
-          this.$router.push("/").catch(() => {
+          //this.$router.push("/").catch(() => {
             this.$forceUpdate();
-          });
+          //});
         } catch (err) {
           console.log(err.response);
         }
