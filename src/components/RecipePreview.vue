@@ -132,13 +132,24 @@ export default {
 
     async addToFavorite() {
       try {
-        await this.axios.post(
-          // "https://ass-3-2-mohsen-evgeny.herokuapp.com/recipes/random"
-          `http://localhost:3000/user/recipeInfo/add/${this.recipe.id}`,
-          {
-            isSaved: 1,
-          }
-        );
+        if(this.watched){
+          await this.axios.put(
+            // "https://ass-3-2-mohsen-evgeny.herokuapp.com/recipes/random"
+            `http://localhost:3000/user/recipeInfo/update/${this.recipe.id}`,
+            {
+              isSaved: 1,
+            }
+          );
+        }
+        else{
+          await this.axios.post(
+            // "https://ass-3-2-mohsen-evgeny.herokuapp.com/recipes/random"
+            `http://localhost:3000/user/recipeInfo/add/${this.recipe.id}`,
+            {
+              isSaved: 1,
+            }
+          );
+        }
         this.favorite = "✔️";
         this.isHidden = true;
       } catch (error) {
