@@ -98,11 +98,18 @@ export default {
     }
   },
 
+  created() {
+    // local
+    // this.favorites = this.$root.store.getFavorite("favorite_recipes");
+    this.favorites = this.$root.store.favorite_recipes;
+  },
+
   data() {
     return {
       favorite: null,
       watched: "❌",
       isHidden: false,
+      favorites: [],
     };
   },
   props: {
@@ -118,49 +125,37 @@ export default {
 
   methods: {
     async getIsFavorite() {
-      // const favorite = await this.axios.get(
-      //   // "https://ass-3-2-mohsen-evgeny.herokuapp.com/recipes/random"
-      //   `http://localhost:3000/user/favorites/${this.recipe.id}`
-      // );
-
-      let favorite = this.$root.store.getFavorite("favorite_recipes");
-
-      if (favorite == null) {
-        favorite = await this.axios.get(
-          // "https://ass-3-2-mohsen-evgeny.herokuapp.com/recipes/random"
-          `http://localhost:3000/user/favorites/`
-        );
-        this.$root.store.setFavorite(favorite["data"]);
+      try{
+        Array.prototype.forEach.call(this.favorites, recipe => {
+          if (recipe.id == this.recipe.id && recipe.isSaved) {
+            this.favorite = "❤️";
+            this.isHidden = true;
+            return;
+          }
+        });
       }
-      favorite.forEach((recipe) => {
-        if (recipe.id == this.recipe.id && recipe.isSaved) {
-          this.recipe = "❤️";
-          this.isHidden = true;
-          return;
-        }
-        this.isHidden = false;
-      });
-
-      // this.favorite = "🤍";
+      catch(error){
+        console.log(error);
+      }
     },
 
     async getIsWatched() {
-      const favorite = await this.axios.get(
-        // "https://ass-3-2-mohsen-evgeny.herokuapp.com/recipes/random"
-        `http://localhost:3000/user/favorites/${this.recipe.id}`
-      );
-      // const favorite = this.$root.store.favorite_recipes;
-
-      if (favorite["data"].length > 0 && favorite["data"][0].isWatched) {
-        this.watched = "✔️";
-        return;
+      try{
+        Array.prototype.forEach.call(this.favorites, recipe => {
+          if (recipe.id == this.recipe.id && recipe.isWatched) {
+            this.watched = "✔️";
+            return;
+          }
+        });
       }
-      this.watched = "❌";
+      catch(error){
+        console.log(error);
+      }
     },
 
     async addToFavorite() {
       try {
-        if (this.watched) {
+        if (this.watched === "✔️") {
           await this.axios.put(
             // "https://ass-3-2-mohsen-evgeny.herokuapp.com/recipes/random"
             `http://localhost:3000/user/recipeInfo/update/${this.recipe.id}`,
@@ -177,8 +172,17 @@ export default {
             }
           );
         }
+        // local
+        // await this.$root.store.setFavorite(this.favorites);
+        this.watched = "✔️";
         this.favorite = "❤️";
         this.isHidden = true;
+
+        const favoriteResponse = await this.axios.get(
+          "http://localhost:3000/user/favorites"
+          // "https://ass-3-2-mohsen-evgeny.herokuapp.com/user/myrecipes"
+        );
+        this.$root.store.favorite_recipes = favoriteResponse["data"]
       } catch (error) {
         console.log(error);
       }

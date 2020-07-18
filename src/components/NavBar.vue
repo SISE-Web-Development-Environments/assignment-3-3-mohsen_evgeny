@@ -58,6 +58,12 @@ export default {
       this.$router.push("/").catch(() => {
         this.$forceUpdate();
       });
+
+      // local
+      // this.$root.store.removeFavorite();
+
+      this.$root.store.favorite_recipes = [];
+      this.$root.store.searched_recipes = [];
     },
   },
 };

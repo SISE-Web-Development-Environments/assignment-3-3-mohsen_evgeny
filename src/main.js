@@ -85,14 +85,20 @@ const shared_data = {
     localStorage.removeItem("username");
     this.username = undefined;
   },
-  setFavorite(favorite_recipes) {
-    localStorage.setItem("favorite_recipes", JSON.stringify(favorite_recipes));
-  },
-  getFavorite() {
-    return JSON.parse(localStorage.getItem("favorite_recipes"));
-  },
+
+  // local
+  // setFavorite(favorite_recipes) {
+  //   localStorage.setItem("favorite_recipes", JSON.stringify(favorite_recipes));
+  // },
+  // removeFavorite(){
+  //   localStorage.removeItem("favorite_recipes");
+  // },
+  // getFavorite() {
+  //   return JSON.parse(localStorage.getItem("favorite_recipes"));
+  // },
+
   searched_recipes: [],
-  // favorite_recipes: [],
+  favorite_recipes: [],
 };
 console.log(shared_data);
 // Vue.prototype.$root.store = shared_data;
