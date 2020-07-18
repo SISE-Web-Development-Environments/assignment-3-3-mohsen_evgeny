@@ -13,7 +13,7 @@
     </router-link>
     <div class="recipe-footer">
       <div :title="recipe.RecipeName" class="recipe-title">
-        {{ recipe.RecipeName }}
+        {{ recipe.title }}
       </div>
       <ul class="recipe-overview">
         <li>👨‍🍳{{ recipe.Origin }}</li>
@@ -74,11 +74,12 @@ img.recipe-image {
 .recipe-preview-user .recipe-footer .recipe-title {
   padding: 10px 10px;
   width: 100%;
-  height: 10%;
+  height: 20%;
   font-size: 12pt;
   text-align: left;
   white-space: nowrap;
   overflow: hidden;
+  font-weight: bold;
   -o-text-overflow: ellipsis;
   text-overflow: ellipsis;
 }
