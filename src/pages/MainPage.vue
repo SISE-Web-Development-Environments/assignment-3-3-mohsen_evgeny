@@ -66,6 +66,7 @@ export default {
         const watchedRecipes = watchedResponse.data; // change to data
         this.watchedRecipes = [];
         this.watchedRecipes.push(...watchedRecipes);
+        console.log(this.watchedRecipes);
         this.bool = true;
       }
     },
@@ -79,6 +80,7 @@ export default {
         const randomRecipes = randomResponse.data; // change to data
         this.randomRecipes = [];
         this.randomRecipes.push(...randomRecipes);
+        console.log(this.watchedRecipes);
       } catch (error) {
         console.log(error);
       }

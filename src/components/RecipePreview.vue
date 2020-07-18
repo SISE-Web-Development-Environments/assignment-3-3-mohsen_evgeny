@@ -11,6 +11,7 @@
           <img :src="recipe.image" class="recipe-image" />
         </div>
       </router-link>
+
       <div class="recipe-footer">
         <div :title="recipe.title" class="recipe-title">
           {{ recipe.title }}
@@ -39,14 +40,29 @@
       </div>
     </div>
     <div v-else class="recipe-preview">
-      <router-link
-        :to="{ name: 'recipe', params: { recipeId: recipe.id } }"
-        class="recipe-preview"
-      >
-        <div class="recipe-body">
-          <img :src="recipe.image" class="recipe-image" />
-        </div>
-      </router-link>
+      <div v-if="title == 'Favorite Recipes'">
+        <router-link
+          :to="{
+            name: 'recipe',
+            params: { recipeId: recipe.id, favorite: true },
+          }"
+        >
+          <div class="recipe-body">
+            <img :src="recipe.image" class="recipe-image" />
+          </div>
+        </router-link>
+      </div>
+      <div v-else>
+        <router-link
+          :to="{ name: 'recipe', params: { recipeId: recipe.id } }"
+          class="recipe-preview"
+        >
+          <div class="recipe-body">
+            <img :src="recipe.image" class="recipe-image" />
+          </div>
+        </router-link>
+      </div>
+
       <div class="recipe-footer">
         <div :title="recipe.title" class="recipe-title">
           {{ recipe.title }}
@@ -125,30 +141,32 @@ export default {
 
   methods: {
     async getIsFavorite() {
-      try{
-        Array.prototype.forEach.call(this.favorites, recipe => {
+      try {
+        Array.prototype.forEach.call(this.favorites, (recipe) => {
           if (recipe.id == this.recipe.id && recipe.isSaved) {
             this.favorite = "❤️";
             this.isHidden = true;
             return;
           }
         });
-      }
-      catch(error){
+      } catch (error) {
         console.log(error);
       }
     },
 
     async getIsWatched() {
-      try{
-        Array.prototype.forEach.call(this.favorites, recipe => {
+      if (this.title == "Last Viewed Recipes") {
+        this.watched = "✔️";
+        return;
+      }
+      try {
+        Array.prototype.forEach.call(this.favorites, (recipe) => {
           if (recipe.id == this.recipe.id && recipe.isWatched) {
             this.watched = "✔️";
             return;
           }
         });
-      }
-      catch(error){
+      } catch (error) {
         console.log(error);
       }
     },
@@ -178,11 +196,12 @@ export default {
         this.favorite = "❤️";
         this.isHidden = true;
 
-        const favoriteResponse = await this.axios.get(
+        let favoriteResponse = await this.axios.get(
           "http://localhost:3000/user/favorites"
           // "https://ass-3-2-mohsen-evgeny.herokuapp.com/user/myrecipes"
         );
-        this.$root.store.favorite_recipes = favoriteResponse["data"]
+        this.$root.store.favorite_recipes = favoriteResponse["data"];
+        this.favorites = this.$root.store.favorite_recipes;
       } catch (error) {
         console.log(error);
       }

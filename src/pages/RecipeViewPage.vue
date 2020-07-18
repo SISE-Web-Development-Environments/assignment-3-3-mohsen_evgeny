@@ -58,19 +58,28 @@ export default {
       recipe: null,
       isHidden: true,
       favorites: [],
+      // favorite: null,
     };
   },
   async mounted() {
     //add to watch list
-    try {
-      await this.axios.post(
-        `http://localhost:3000/user/recipeInfo/add/${this.$route.params.recipeId}`,
-        {
-          isSaved: 0,
-        }
-      );
-    } catch (err) {
-      console.log(err);
+    if (
+      this.$root.store.username &&
+      !this.$route.params.family &&
+      !this.$route.params.personal &&
+      !this.$route.params.favorite
+    ) {
+      isHidden: false;
+      try {
+        await this.axios.post(
+          `http://localhost:3000/user/recipeInfo/add/${this.$route.params.recipeId}`,
+          {
+            isSaved: 0,
+          }
+        );
+      } catch (err) {
+        console.log(err);
+      }
     }
   },
   async created() {
@@ -90,17 +99,15 @@ export default {
             `http://localhost:3000/recipes/show/${this.$route.params.recipeId}`
             // `http://localhost:3000/user/getPersonalRecipeInfo/${this.$route.params.recipeId}`
           );
+          // this.favorites = this.$root.store.favorite_recipes;
+
+          // Array.prototype.forEach.call(this.favorites, (recipe) => {
+          //   if (recipe.id == this.recipe.id && recipe.isSaved) {
+          //     this.favorite = "❤️";
+          //     this.isHidden = true;
+          //   }
+          // });
         }
-
-        this.favorites = this.$root.store.favorite_recipes;
-
-        Array.prototype.forEach.call(this.favorites, recipe => {
-          if (recipe.id == this.recipe.id && recipe.isSaved) {
-            this.favorite = "❤️";
-            this.isHidden = true;
-          }
-        });
-
       } catch (error) {
         console.log("error.response.status", error.response.status);
         this.$router.replace("/NotFound");
@@ -119,9 +126,9 @@ export default {
     }
   },
 
-  methods:{
-    async addToFavorite(){
-      try{
+  methods: {
+    async addToFavorite() {
+      try {
         await this.axios.post(
           // "https://ass-3-2-mohsen-evgeny.herokuapp.com/recipes/random"
           `http://localhost:3000/user/recipeInfo/add/${this.recipe.id}`,
@@ -129,21 +136,20 @@ export default {
             isSaved: 1,
           }
         );
-        
-        this.favorite = "❤️";
+
+        // this.favorite = "❤️";
         this.isHidden = true;
 
         const favoriteResponse = await this.axios.get(
           "http://localhost:3000/user/favorites"
           // "https://ass-3-2-mohsen-evgeny.herokuapp.com/user/myrecipes"
         );
-        this.$root.store.favorite_recipes = favoriteResponse["data"]
-      }
-      catch(error){
+        this.$root.store.favorite_recipes = favoriteResponse["data"];
+      } catch (error) {
         console.log(error);
       }
     },
-  }
+  },
 };
 </script>
 
