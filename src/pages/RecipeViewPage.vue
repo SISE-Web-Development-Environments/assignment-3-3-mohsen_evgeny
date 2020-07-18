@@ -128,7 +128,7 @@ export default {
             isSaved: 1,
           }
         );
-        this.recipe["isSaved"] = true;
+        this.isHidden = true;
       }
       catch(error){
         console.log(error);
