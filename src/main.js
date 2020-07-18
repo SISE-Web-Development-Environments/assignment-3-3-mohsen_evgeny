@@ -2,9 +2,14 @@ import Vue from "vue";
 import App from "./App.vue";
 import VueAxios from "vue-axios";
 import axios from "axios";
+axios.defaults.withCredentials = true;
+
+import { InputGroupPlugin } from "bootstrap-vue";
+Vue.use(InputGroupPlugin);
 
 import routes from "./routes";
 import VueRouter from "vue-router";
+import VueCookies from "vue-cookies";
 Vue.use(VueRouter);
 const router = new VueRouter({
   routes,
@@ -37,7 +42,9 @@ import {
   ToastPlugin,
   LayoutPlugin,
 ].forEach((x) => Vue.use(x));
+
 Vue.use(Vuelidate);
+Vue.use(VueCookies);
 
 axios.interceptors.request.use(
   function(config) {
@@ -78,9 +85,29 @@ const shared_data = {
     localStorage.removeItem("username");
     this.username = undefined;
   },
+
+  searched_recipes: [],
 };
 console.log(shared_data);
 // Vue.prototype.$root.store = shared_data;
+
+//if cookie is expired!
+router.beforeEach((to, from, next) => {
+  if (shared_data.username === undefined && !Vue.$cookies.get("session")) {
+    next();
+  } else {
+    if (!Vue.$cookies.get("session")) {
+      shared_data.logout();
+      if (to.matched.some((route) => route.meta.requiresAuth)) {
+        next({ name: "main" });
+      } else {
+        next();
+      }
+    } else {
+      next();
+    }
+  }
+});
 
 new Vue({
   router,

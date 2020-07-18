@@ -93,20 +93,22 @@ export default {
     },
     async Login() {
       try {
-        const response = await this.axios.post(
-          "https://ass-3-2-mohsen-evgeny.herokuapp.com/Login",
-          {
-            username: this.form.username,
-            password: this.form.password,
-          }
-        );
+        const response = await this.axios.post("http://localhost:3000/Login", {
+          username: this.form.username,
+          password: this.form.password,
+        });
         // console.log(response);
         // this.$root.loggedIn = true;
         console.log(this.$root.store.login);
         this.$root.store.login(this.form.username);
         try {
-          this.$router.go("/"); //redirect to main page !!!!!
-        } catch (err) {}
+          // this.$router.go("/#/"); //redirect to main page !!!!!
+          //this.$router.push("/").catch(() => {
+          this.$forceUpdate();
+          //});
+        } catch (err) {
+          console.log(err.response);
+        }
       } catch (err) {
         console.log(err.response);
         this.form.submitError = err.response.data.message;
@@ -129,5 +131,11 @@ export default {
 <style lang="scss" scoped>
 .container {
   max-width: 400px;
+}
+
+.btn-primary {
+  color: #fff;
+  background-color: black;
+  border-color: black;
 }
 </style>

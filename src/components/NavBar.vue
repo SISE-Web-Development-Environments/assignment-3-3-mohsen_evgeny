@@ -10,6 +10,7 @@
       <router-link tag="b-nav-item" :to="{ name: 'search' }"
         >Search</router-link
       >
+      <router-link tag="b-nav-item" :to="{ name: 'about' }">About</router-link>
     </b-navbar-nav>
 
     <!-- right components in nav bar -->
@@ -62,4 +63,12 @@ export default {
 };
 </script>
 
-<style></style>
+<style>
+.navbar-dark .navbar-nav .nav-link {
+  color: white !important;
+}
+
+.navbar.navbar-dark.bg-info.navbar-expand {
+  background-color: black !important;
+}
+</style>

@@ -11,9 +11,17 @@
             <div class="mb-3">
               <div>Ready in {{ recipe.readyInMinutes }} minutes</div>
               <div>Likes: {{ recipe.aggregateLikes }} likes</div>
+              <div>Servings: {{ recipe.servings }} servings</div>
+
+              <button v-show="!isHidden" @click="addToFavorite">Save</button>
             </div>
             Ingredients:
-            <ul>
+            <ul v-if="this.$route.params.family || this.$route.params.personal">
+              <li v-for="index in recipe.ingredients[0]" :key="index">
+                {{ index }}
+              </li>
+            </ul>
+            <ul v-else>
               <li v-for="index in recipe.ingredients" :key="index">
                 {{ index }}
               </li>
@@ -21,7 +29,12 @@
           </div>
           <div class="wrapped">
             Instructions:
-            <ol>
+            <ol v-if="this.$route.params.family || this.$route.params.personal">
+              <li v-for="s in recipe.instructions[0]" :key="s.number">
+                {{ s.step }}
+              </li>
+            </ol>
+            <ol v-else>
               <li v-for="s in recipe.instructions" :key="s.number">
                 {{ s.step }}
               </li>
@@ -43,21 +56,50 @@ export default {
   data() {
     return {
       recipe: null,
+      isHidden: true,
     };
+  },
+  async mounted() {
+    //add to watch list
+    try {
+      await this.axios.post(
+        `http://localhost:3000/user/recipeInfo/add/${this.$route.params.recipeId}`,
+        {
+          isSaved: 0,
+        }
+      );
+    } catch (err) {
+      console.log(err);
+    }
   },
   async created() {
     try {
       let response;
-      // response = this.$route.params.response;
 
       try {
-        response = await this.axios.get(
-          // "https://test-for-3-2.herokuapp.com/recipes/info",
-          `https://ass-3-2-mohsen-evgeny.herokuapp.com/recipes/show/${this.$route.params.recipeId}`
+        if (this.$route.params.family || this.$route.params.personal) {
+          response = await this.axios.get(
+            // `https://ass-3-2-mohsen-evgeny.herokuapp.com/recipes/show/${this.$route.params.recipeId}`
+            // `http://localhost:3000/recipes/show/${this.$route.params.recipeId}`
+            `http://localhost:3000/user/getPersonalRecipeInfo/${this.$route.params.recipeId}`
+          );
+        } else {
+          response = await this.axios.get(
+            // `https://ass-3-2-mohsen-evgeny.herokuapp.com/recipes/show/${this.$route.params.recipeId}`
+            `http://localhost:3000/recipes/show/${this.$route.params.recipeId}`
+            // `http://localhost:3000/user/getPersonalRecipeInfo/${this.$route.params.recipeId}`
+          );
+        }
+
+        const favorite = await this.axios.get(
+          // "https://ass-3-2-mohsen-evgeny.herokuapp.com/recipes/random"
+          `http://localhost:3000/user/favorites/${this.$route.params.recipeId}`
         );
 
-        // console.log("response.status", response.status);
-        if (response.status !== 200) this.$router.replace("/NotFound");
+        if(favorite["data"].length == 0 || !favorite["data"][0].isSaved) {
+          this.isHidden = false;
+        }
+
       } catch (error) {
         console.log("error.response.status", error.response.status);
         this.$router.replace("/NotFound");
@@ -66,11 +108,33 @@ export default {
 
       console.log(response);
 
-      this.recipe = response.data;
+      if (this.$route.params.family || this.$route.params.personal) {
+        this.recipe = response.data[0];
+      } else {
+        this.recipe = response.data;
+      }
     } catch (error) {
       console.log(error);
     }
   },
+
+  methods:{
+    async addToFavorite(){
+      try{
+        await this.axios.post(
+          // "https://ass-3-2-mohsen-evgeny.herokuapp.com/recipes/random"
+          `http://localhost:3000/user/recipeInfo/add/${this.recipe.id}`,
+          {
+            isSaved: 1,
+          }
+        );
+        this.recipe["isSaved"] = true;
+      }
+      catch(error){
+        console.log(error);
+      }
+    },
+  }
 };
 </script>
 
