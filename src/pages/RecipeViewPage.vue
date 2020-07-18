@@ -152,6 +152,6 @@ export default {
   width: 50%;
 }
 /* .recipe-header{
-
+//
 } */
 </style>
