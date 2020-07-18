@@ -4,9 +4,10 @@
       {{ title }}:
       <slot></slot>
     </h3>
-    <b-row v-for="r in recipes" :key="r.id">
-      <RecipePreviewUser class="recipePreview" :title="title" :recipe="r" />
-      <br />
+    <b-row>
+      <b-col v-for="r in recipes" :key="r.id">
+        <RecipePreviewUser class="recipePreview" :title="title" :recipe="r" />
+      </b-col>
     </b-row>
   </b-container>
 </template>

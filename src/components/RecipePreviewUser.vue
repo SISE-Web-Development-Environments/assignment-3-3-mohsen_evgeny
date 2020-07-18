@@ -1,25 +1,26 @@
 <template>
-  <router-link
-    :to="{
-      name: 'recipe',
-      params: { recipeId: recipe.RecipeId, family: true },
-    }"
-    class="recipe-preview-user"
-  >
-    <div class="recipe-body">
-      <!-- <img v-if="image_load" :src="recipe.image" class="recipe-image" /> -->
-      <img :src="recipe.ImageUrl" class="recipe-image" />
-    </div>
+  <div class="recipe-preview-user">
+    <router-link
+      :to="{
+        name: 'recipe',
+        params: { recipeId: recipe.RecipeId, family: true },
+      }"
+    >
+      <div class="recipe-body">
+        <!-- <img v-if="image_load" :src="recipe.image" class="recipe-image" /> -->
+        <img :src="recipe.ImageUrl" class="recipe-image" />
+      </div>
+    </router-link>
     <div class="recipe-footer">
       <div :title="recipe.RecipeName" class="recipe-title">
         {{ recipe.RecipeName }}
       </div>
       <ul class="recipe-overview">
-        <li>{{ recipe.Origin }}</li>
-        <li>{{ recipe.Reason }}</li>
+        <li>👨‍🍳{{ recipe.Origin }}</li>
+        <li>⏰{{ recipe.Reason }}</li>
       </ul>
     </div>
-  </router-link>
+  </div>
 </template>
 
 <script>
@@ -36,18 +37,21 @@ export default {
 <style scoped>
 .recipe-preview-user {
   display: inline-block;
-  width: 50%;
+  width: 100%;
   height: 100%;
   position: relative;
-  margin: 10px 10px;
+  /* margin: 20px 20px; */
   border-style: solid;
 }
 .recipe-previews > .recipe-body {
   width: 100%;
-  height: 200px;
+  /* height: 200px; */
   position: relative;
 }
 
+img.recipe-image {
+  height: 300px;
+}
 .recipe-preview-user .recipe-body .recipe-image {
   margin-left: auto;
   margin-right: auto;
@@ -55,7 +59,7 @@ export default {
   margin-bottom: auto;
   display: block;
   width: 100%;
-  height: 80%;
+  /* height: 40%; */
   -webkit-background-size: cover;
   -moz-background-size: cover;
   background-size: cover;
@@ -70,6 +74,7 @@ export default {
 .recipe-preview-user .recipe-footer .recipe-title {
   padding: 10px 10px;
   width: 100%;
+  height: 10%;
   font-size: 12pt;
   text-align: left;
   white-space: nowrap;

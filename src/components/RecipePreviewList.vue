@@ -4,10 +4,19 @@
       {{ title }}
       <slot></slot>
     </h3>
-    <b-row v-for="r in recipes" :key="r.id">
-      <RecipePreview class="recipePreview" :recipe="r" :title="title" />
-      <br />
-    </b-row>
+    <span v-if="title == 'Personal Recipes'">
+      <b-row>
+        <b-col v-for="r in recipes" :key="r.id">
+          <RecipePreview class="recipePreview" :recipe="r" :title="title" />
+        </b-col>
+      </b-row>
+    </span>
+    <span v-else>
+      <b-row v-for="r in recipes" :key="r.id">
+        <RecipePreview class="recipePreview" :recipe="r" :title="title" />
+        <br />
+      </b-row>
+    </span>
   </b-container>
 </template>
 

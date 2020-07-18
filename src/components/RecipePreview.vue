@@ -86,10 +86,15 @@
 
 <script>
 export default {
-  async created() {
-    if (this.$root.store.username) {
+  mounted() {
+    console.log(this.title);
+    // this.title !== "Favorite Recipes"
+    if (this.$root.store.username && this.title !== "Personal Recipes") {
       this.getIsFavorite();
       this.getIsWatched();
+    }
+    if (this.title == "Favorite Recipes") {
+      this.favorite = "❤️";
     }
   },
 
@@ -97,7 +102,7 @@ export default {
     return {
       favorite: null,
       watched: "❌",
-      isHidden: true,
+      isHidden: false,
     };
   },
   props: {
@@ -120,6 +125,7 @@ export default {
 
       if (favorite["data"].length > 0 && favorite["data"][0].isSaved) {
         this.favorite = "❤️";
+        this.isHidden = true;
         return;
       }
       this.isHidden = false;
@@ -179,9 +185,13 @@ export default {
 }
 .recipe-preview > .recipe-body {
   width: 100%;
-  height: 100%;
+  /* height: 100%; */
   position: relative;
   /* margin-top: 10px; */
+}
+
+img.recipe-image {
+  height: 300px;
 }
 
 .recipe-preview .recipe-body .recipe-image {
@@ -191,7 +201,7 @@ export default {
   margin-bottom: auto;
   display: block;
   width: 100%;
-  height: 80%;
+  /* height: 80%; */
   -webkit-background-size: cover;
   -moz-background-size: cover;
   background-size: cover;
@@ -199,7 +209,7 @@ export default {
 
 .recipe-preview .recipe-footer {
   width: 100%;
-  /* height: 50%; */
+  height: 50%;
   overflow: hidden;
 }
 
