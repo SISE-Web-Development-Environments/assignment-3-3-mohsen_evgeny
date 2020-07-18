@@ -100,6 +100,7 @@ export default {
         // console.log(response);
         // this.$root.loggedIn = true;
         console.log(this.$root.store.login);
+        // this.getFavorites();
         this.$root.store.login(this.form.username);
         try {
           // this.$router.go("/#/"); //redirect to main page !!!!!
@@ -125,6 +126,15 @@ export default {
 
       this.Login();
     },
+
+    // async getFavorites() {
+    //   const favorite = await this.axios.get(
+    //     // "https://ass-3-2-mohsen-evgeny.herokuapp.com/recipes/random"
+    //     `http://localhost:3000/user/favorites/`
+    //   );
+    //   this.$root.store.setFavorite(favorite["data"]);
+    //   x = 0;
+    // },
   },
 };
 </script>
