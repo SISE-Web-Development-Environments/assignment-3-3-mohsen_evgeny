@@ -104,7 +104,7 @@ button {
   background-repeat: no-repeat;
   border: none;
   cursor: pointer;
-  overflow: hidden;
+  overflow: hidden; //
   outline: none;
 }
 </style>
