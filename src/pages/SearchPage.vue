@@ -110,7 +110,23 @@
         this.intolerancesList.push({ value: null, text: 'All'})
       }
       
-      this.recipes = this.$root.store.searched_recipes;
+      let searchedRecipes = this.$root.store.searched_recipes;
+      let watched = this.$root.store.favorite_recipes;
+
+      Array.prototype.forEach.call(searchedRecipes, (sRecipe) => {
+        Array.prototype.forEach.call(watched, (wRecipe) => {
+          if (!this.recipes.some(elem =>{ return JSON.stringify(wRecipe.id) === JSON.stringify(elem.id);}) && sRecipe.id == wRecipe.id) {
+            this.recipes.push(wRecipe);
+          }
+          else {
+            if(!this.recipes.some(elem =>{ return JSON.stringify(sRecipe.id) === JSON.stringify(elem.id);})){
+              this.recipes.push(sRecipe);
+            }
+          }
+        });
+      });
+
+      // this.recipes = this.$root.store.searched_recipes;
       
       
     },

@@ -56,6 +56,7 @@
         <router-link
           :to="{ name: 'recipe', params: { recipeId: recipe.id } }"
           class="recipe-preview"
+          @click.native="addToWatch"
         >
           <div class="recipe-body">
             <img :src="recipe.image" class="recipe-image" />
@@ -171,6 +172,34 @@ export default {
       }
     },
 
+    async addToWatch() {
+        //add to watch list
+        if (
+          this.$root.store.username &&
+          !this.$route.params.family &&
+          !this.$route.params.personal &&
+          !this.$route.params.favorite
+        ) {
+          isHidden: false;
+          try {
+            await this.axios.post(
+              `http://localhost:3000/user/recipeInfo/add/${this.recipe.id}`,
+              {
+                isSaved: 0,
+              }
+            );
+
+            let favoriteResponse = await this.axios.get(
+              "http://localhost:3000/user/favorites"
+              // "https://ass-3-2-mohsen-evgeny.herokuapp.com/user/myrecipes"
+            );
+            this.$root.store.favorite_recipes = favoriteResponse["data"];
+            this.favorites = this.$root.store.favorite_recipes;
+          } catch (err) {
+            console.log(err);
+          }
+        }
+      },
     async addToFavorite() {
       try {
         if (this.watched === "✔️") {

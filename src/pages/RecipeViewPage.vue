@@ -62,25 +62,31 @@ export default {
     };
   },
   async mounted() {
-    //add to watch list
-    if (
-      this.$root.store.username &&
-      !this.$route.params.family &&
-      !this.$route.params.personal &&
-      !this.$route.params.favorite
-    ) {
-      isHidden: false;
-      try {
-        await this.axios.post(
-          `http://localhost:3000/user/recipeInfo/add/${this.$route.params.recipeId}`,
-          {
-            isSaved: 0,
-          }
-        );
-      } catch (err) {
-        console.log(err);
-      }
-    }
+    // //add to watch list
+    // if (
+    //   this.$root.store.username &&
+    //   !this.$route.params.family &&
+    //   !this.$route.params.personal &&
+    //   !this.$route.params.favorite
+    // ) {
+    //   isHidden: false;
+    //   try {
+    //     await this.axios.post(
+    //       `http://localhost:3000/user/recipeInfo/add/${this.$route.params.recipeId}`,
+    //       {
+    //         isSaved: 0,
+    //       }
+    //     );
+
+    //     let favoriteResponse = await this.axios.get(
+    //       "http://localhost:3000/user/favorites"
+    //       // "https://ass-3-2-mohsen-evgeny.herokuapp.com/user/myrecipes"
+    //     );
+    //     this.$root.store.favorite_recipes = favoriteResponse["data"];
+    //   } catch (err) {
+    //     console.log(err);
+    //   }
+    // }
   },
   async created() {
     try {
