@@ -99,6 +99,7 @@ const shared_data = {
 
   searched_recipes: [],
   favorite_recipes: [],
+  all_watched: [],
 };
 console.log(shared_data);
 // Vue.prototype.$root.store = shared_data;

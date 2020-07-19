@@ -123,6 +123,20 @@ router.get("/watched", async (req, res, next) => {
   }
 });
 
+router.get("/allWatched", async (req, res, next) => {
+  try {
+    const user = req.user;
+    const recipeIds = await DButils.getAllWatchedIds(user);
+
+    let watchedWithGeneralDetails = await search_recipes.getRecipesInfo(
+      recipeIds
+    );
+    res.send(watchedWithGeneralDetails);
+  } catch (error) {
+    next(error);
+  }
+});
+
 router.get("/family", async (req, res, next) => {
   try {
     const user = req.user;

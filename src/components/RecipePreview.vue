@@ -119,6 +119,7 @@ export default {
     // local
     // this.favorites = this.$root.store.getFavorite("favorite_recipes");
     this.favorites = this.$root.store.favorite_recipes;
+    this.allWatched = this.$root.store.all_watched;
   },
 
   data() {
@@ -127,6 +128,7 @@ export default {
       watched: "❌",
       isHidden: false,
       favorites: [],
+      allWatched: [],
     };
   },
   props: {
@@ -161,8 +163,8 @@ export default {
         return;
       }
       try {
-        Array.prototype.forEach.call(this.favorites, (recipe) => {
-          if (recipe.id == this.recipe.id && recipe.isWatched) {
+        Array.prototype.forEach.call(this.allWatched, (recipe) => {
+          if (recipe.id == this.recipe.id) {
             this.watched = "✔️";
             return;
           }
@@ -181,6 +183,7 @@ export default {
           !this.$route.params.favorite
         ) {
           isHidden: false;
+          this.watched = "✔️";
           try {
             await this.axios.post(
               `http://localhost:3000/user/recipeInfo/add/${this.recipe.id}`,
@@ -189,12 +192,16 @@ export default {
               }
             );
 
-            let favoriteResponse = await this.axios.get(
-              "http://localhost:3000/user/favorites"
+            let watchedResponse = await this.axios.get(
+              "http://localhost:3000/user/allWatched"
               // "https://ass-3-2-mohsen-evgeny.herokuapp.com/user/myrecipes"
             );
-            this.$root.store.favorite_recipes = favoriteResponse["data"];
-            this.favorites = this.$root.store.favorite_recipes;
+            // this.$root.store.favorite_recipes = favoriteResponse["data"];
+            // this.favorites = this.$root.store.favorite_recipes;
+
+            this.$root.store.all_watched = watchedResponse["data"];
+            this.allWatched = this.$root.store.all_watched;
+            
           } catch (err) {
             console.log(err);
           }
@@ -202,7 +209,7 @@ export default {
       },
     async addToFavorite() {
       try {
-        if (this.watched === "✔️") {
+        if (this.allWatched.some(elem =>{ return JSON.stringify(this.recipe.id) === JSON.stringify(elem.id);})) {
           await this.axios.put(
             // "https://ass-3-2-mohsen-evgeny.herokuapp.com/recipes/random"
             `http://localhost:3000/user/recipeInfo/update/${this.recipe.id}`,
@@ -231,6 +238,14 @@ export default {
         );
         this.$root.store.favorite_recipes = favoriteResponse["data"];
         this.favorites = this.$root.store.favorite_recipes;
+
+        let watchedResponse = await this.axios.get(
+          "http://localhost:3000/user//allWatched"
+          // "https://ass-3-2-mohsen-evgeny.herokuapp.com/user/myrecipes"
+        );
+
+        this.$root.store.all_watched = watchedResponse["data"];
+        this.allWatched = this.$root.store.all_watched;
       } catch (error) {
         console.log(error);
       }

@@ -129,6 +129,19 @@ exports.getThreeLastWatchedIds = async function (user) {
   return ids;
 };
 
+exports.getAllWatchedIds = async function (user) {
+  let ids = [];
+  let rawIds = await this.execQuery(
+    `SELECT RecipeApiId from UserRecipe where UserId = CONVERT(uniqueidentifier, '${user[0].UserId}')`
+  );
+
+  rawIds.map((rawId) => {
+    ids.push(rawId.RecipeApiId);
+  });
+
+  return ids;
+};
+
 // ---------------------------
 exports.getUserFavoriteRecipeById = async function (user, id) {
   return await this.execQuery(

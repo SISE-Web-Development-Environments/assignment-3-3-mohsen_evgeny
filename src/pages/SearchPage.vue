@@ -111,11 +111,15 @@
       }
       
       let searchedRecipes = this.$root.store.searched_recipes;
-      let watched = this.$root.store.favorite_recipes;
+      let watched = this.$root.store.all_watched;
 
       Array.prototype.forEach.call(searchedRecipes, (sRecipe) => {
         Array.prototype.forEach.call(watched, (wRecipe) => {
-          if (!this.recipes.some(elem =>{ return JSON.stringify(wRecipe.id) === JSON.stringify(elem.id);}) && sRecipe.id == wRecipe.id) {
+          if (this.recipes.some(elem =>{ return JSON.stringify(wRecipe.id) === JSON.stringify(elem.id);}) && sRecipe.id == wRecipe.id) {
+            this.recipes.pop(sRecipe);
+            this.recipes.push(wRecipe);
+          }
+          else if(sRecipe.id == wRecipe.id){
             this.recipes.push(wRecipe);
           }
           else {
