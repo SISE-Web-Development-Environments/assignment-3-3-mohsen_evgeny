@@ -145,6 +145,7 @@
           // console.log(this.intolerancesList)
           if(this.userQuery === ""){
             this.$root.toast("Empty query", "Please, give a proper query");
+            return;
           }
 
           const response = await this.axios.get(
