@@ -13,7 +13,7 @@ const api_key = "apiKey=88877e3cdd5b4205a4b9ba8c9d0e425a"; // kind of secret - u
 //2d8635a767a2424abafe91dfb9e635f3
 //f7dcb427108945238f820b11a914b016
 function extractQueriesParams(query_params, search_params) {
-  const param_list = ["cuisine", "diet", "intolerance"];
+  const param_list = ["cuisine", "diet", "intolerances"];
   //we change the original object that we got as a parameter...
   param_list.forEach((param) => {
     if (query_params[param]) {
