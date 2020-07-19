@@ -122,12 +122,13 @@
           else if(sRecipe.id == wRecipe.id){
             this.recipes.push(wRecipe);
           }
-          else {
-            if(!this.recipes.some(elem =>{ return JSON.stringify(sRecipe.id) === JSON.stringify(elem.id);})){
-              this.recipes.push(sRecipe);
-            }
-          }
         });
+      });
+
+      Array.prototype.forEach.call(searchedRecipes, (sRecipe) => {
+        if(!this.recipes.some(elem =>{ return JSON.stringify(sRecipe.id) === JSON.stringify(elem.id);})){
+          this.recipes.push(sRecipe);
+        }
       });
 
       // this.recipes = this.$root.store.searched_recipes;
