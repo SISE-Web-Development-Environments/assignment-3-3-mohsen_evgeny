@@ -35,6 +35,9 @@ export default {
 </script>
 
 <style scoped>
+div.col {
+  min-width: 300px;
+}
 .recipe-preview-user {
   display: inline-block;
   width: 100%;
