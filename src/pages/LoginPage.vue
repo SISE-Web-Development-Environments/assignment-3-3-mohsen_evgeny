@@ -100,12 +100,14 @@ export default {
         // console.log(response);
         // this.$root.loggedIn = true;
         console.log(this.$root.store.login);
+        await this.getFavorites();
+        await this.getAllWatched();
         this.$root.store.login(this.form.username);
         try {
           // this.$router.go("/#/"); //redirect to main page !!!!!
-          //this.$router.push("/").catch(() => {
-          this.$forceUpdate();
-          //});
+          this.$router.push("/").catch(() => {
+            this.$forceUpdate();
+          });
         } catch (err) {
           console.log(err.response);
         }
@@ -124,6 +126,30 @@ export default {
       // console.log("login method go");
 
       this.Login();
+    },
+
+    async getFavorites() {
+      const favorite = await this.axios.get(
+        // "https://ass-3-2-mohsen-evgeny.herokuapp.com/recipes/random"
+        `http://localhost:3000/user/favorites`
+      );
+
+      // local
+      // await this.$root.store.setFavorite(favorite["data"]);
+
+      this.$root.store.favorite_recipes = favorite["data"];
+    },
+
+    async getAllWatched() {
+      const watched = await this.axios.get(
+        // "https://ass-3-2-mohsen-evgeny.herokuapp.com/recipes/random"
+        `http://localhost:3000/user/allWatched`
+      );
+
+      // local
+      // await this.$root.store.setFavorite(favorite["data"]);
+
+      this.$root.store.all_watched = watched["data"];
     },
   },
 };

@@ -110,7 +110,28 @@
         this.intolerancesList.push({ value: null, text: 'All'})
       }
       
-      this.recipes = this.$root.store.searched_recipes;
+      let searchedRecipes = this.$root.store.searched_recipes;
+      let watched = this.$root.store.all_watched;
+
+      Array.prototype.forEach.call(searchedRecipes, (sRecipe) => {
+        Array.prototype.forEach.call(watched, (wRecipe) => {
+          if (this.recipes.some(elem =>{ return JSON.stringify(wRecipe.id) === JSON.stringify(elem.id);}) && sRecipe.id == wRecipe.id) {
+            this.recipes.pop(sRecipe);
+            this.recipes.push(wRecipe);
+          }
+          else if(sRecipe.id == wRecipe.id){
+            this.recipes.push(wRecipe);
+          }
+        });
+      });
+
+      Array.prototype.forEach.call(searchedRecipes, (sRecipe) => {
+        if(!this.recipes.some(elem =>{ return JSON.stringify(sRecipe.id) === JSON.stringify(elem.id);})){
+          this.recipes.push(sRecipe);
+        }
+      });
+
+      // this.recipes = this.$root.store.searched_recipes;
       
       
     },
@@ -129,6 +150,7 @@
           // console.log(this.intolerancesList)
           if(this.userQuery === ""){
             this.$root.toast("Empty query", "Please, give a proper query");
+            return;
           }
 
           const response = await this.axios.get(
