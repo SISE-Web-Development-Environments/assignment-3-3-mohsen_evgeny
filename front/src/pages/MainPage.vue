@@ -20,7 +20,6 @@
         <LoginPage />
       </b-col>
       <b-col v-else>
-        <!-- TODO Change to RecipePreviewListUser -->
         <RecipePreviewList
           title="Last Viewed Recipes"
           :class="{
@@ -38,19 +37,15 @@
 
 <script>
 import RecipePreviewList from "../components/RecipePreviewList";
-// import RecipePreviewListUser from "../components/RecipePreviewListUser";
 import LoginPage from "../pages/LoginPage";
 export default {
   components: {
     RecipePreviewList,
-    // RecipePreviewListUser,
     LoginPage,
   },
   data() {
     return {
       randomRecipes: [],
-      // watchedRecipes: this.$root.store.watched_user,
-      // bool: false,
     };
   },
   mounted() {
@@ -61,23 +56,16 @@ export default {
   },
   methods: {
     async updateWatched() {
-      // if (this.$root.store.bool) {
       const watchedResponse = await this.axios.get(
-        // "https://ass-3-2-mohsen-evgeny.herokuapp.com/recipes/random"
         "http://localhost:3000/user/watched"
       );
       const watchedRecipes = watchedResponse.data; // change to data
-      // this.watchedRecipes = [];
-      // this.watchedRecipes.push(...watchedRecipes);
       this.$root.store.watched_user = watchedRecipes;
       console.log(this.watchedRecipes);
-      // localStorage.setItem("bool", false);
-      // }
     },
     async updateRecipes() {
       try {
         const randomResponse = await this.axios.get(
-          // "https://ass-3-2-mohsen-evgeny.herokuapp.com/recipes/random"
           "http://localhost:3000/recipes/random"
         );
 

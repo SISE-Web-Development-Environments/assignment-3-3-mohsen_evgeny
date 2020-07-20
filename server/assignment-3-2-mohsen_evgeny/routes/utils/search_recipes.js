@@ -4,14 +4,8 @@ var express = require("express");
 var router = express.Router();
 
 const recipes_api_url = "https://api.spoonacular.com/recipes";
-const api_key = "apiKey=01decb978bd34a86921cb369a6a46914"; // kind of secret - usualy need to be in external file
-//b4b790cfa86641c5872dddb9eef63263
-//f7dcb427108945238f820b11a914b016
-//351e5834a3f141e5a71304bece393276
-//f218b2a9270644d39ef83f287520a48a
-//aa98be12b3104711bff1dcc28d9e4af0 - not works anymore?
-//2d8635a767a2424abafe91dfb9e635f3
-//f7dcb427108945238f820b11a914b016
+const api_key = "apiKey=aa485425cc2a4212abb3bc2f89fe7fea"; // kind of secret - usualy need to be in external file
+
 function extractQueriesParams(query_params, search_params) {
   const param_list = ["cuisine", "diet", "intolerances"];
   //we change the original object that we got as a parameter...
@@ -20,8 +14,6 @@ function extractQueriesParams(query_params, search_params) {
       search_params[param] = query_params[param];
     }
   });
-
-  // console.log(search_params);
 }
 
 //first step of searching
@@ -34,11 +26,8 @@ async function searchRecipes(search_params) {
   );
   //search response
   const recipes_id_list = extractSearchResultsIds(search_response);
-  // console.log(recipes_id_list);
 
   let info_array = await getRecipesInfo(recipes_id_list);
-
-  // console.log("info_array: ", info_array);
 
   return info_array;
 }

@@ -57,9 +57,6 @@
     >
       Login failed: {{ form.submitError }}
     </b-alert>
-    <!-- <b-card class="mt-3" header="Form Data Result">
-      <pre class="m-0">{{ form }}</pre>
-    </b-card> -->
   </div>
 </template>
 
@@ -97,8 +94,6 @@ export default {
           username: this.form.username,
           password: this.form.password,
         });
-        // console.log(response);
-        // this.$root.loggedIn = true;
         console.log(this.$root.store.login);
         await this.getFavorites();
         await this.updateWatched();
@@ -107,7 +102,6 @@ export default {
         this.$root.store.login(this.form.username);
         console.log(this.$root.store);
         try {
-          // this.$router.go("/#/"); //redirect to main page !!!!!
           this.$router.push("/").catch(() => {
             this.$forceUpdate();
           });
@@ -120,49 +114,36 @@ export default {
       }
     },
     async onLogin() {
-      // console.log("login method called");
       this.form.submitError = undefined;
       this.$v.form.$touch();
       if (this.$v.form.$anyError) {
         return;
       }
-      // console.log("login method go");
 
       await this.Login();
     },
 
     async getFavorites() {
       const favorite = await this.axios.get(
-        // "https://ass-3-2-mohsen-evgeny.herokuapp.com/recipes/random"
         `http://localhost:3000/user/favorites`
       );
-
-      // local
-      // await this.$root.store.setFavorite(favorite["data"]);
 
       this.$root.store.favorite_recipes = favorite["data"];
     },
 
     async getAllWatched() {
       const watched = await this.axios.get(
-        // "https://ass-3-2-mohsen-evgeny.herokuapp.com/recipes/random"
         `http://localhost:3000/user/allWatched`
       );
-
-      // local
-      // await this.$root.store.setFavorite(favorite["data"]);
 
       this.$root.store.all_watched = watched["data"];
     },
     async updateWatched() {
       const watchedResponse = await this.axios.get(
-        // "https://ass-3-2-mohsen-evgeny.herokuapp.com/recipes/random"
         "http://localhost:3000/user/watched"
       );
-      // const watchedRecipes = watchedResponse.data; // change to data
-      // this.watchedRecipes = [];
+
       this.$root.store.watched_user = watchedResponse["data"];
-      // console.log(this.watchedRecipes);
     },
   },
 };

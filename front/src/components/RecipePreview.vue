@@ -116,8 +116,6 @@ export default {
   },
 
   created() {
-    // local
-    // this.favorites = this.$root.store.getFavorite("favorite_recipes");
     this.favorites = this.$root.store.favorite_recipes;
     this.allWatched = this.$root.store.all_watched;
   },
@@ -194,10 +192,7 @@ export default {
 
           let watchedResponse = await this.axios.get(
             "http://localhost:3000/user/allWatched"
-            // "https://ass-3-2-mohsen-evgeny.herokuapp.com/user/myrecipes"
           );
-          // this.$root.store.favorite_recipes = favoriteResponse["data"];
-          // this.favorites = this.$root.store.favorite_recipes;
 
           this.$root.store.all_watched = watchedResponse["data"];
           this.allWatched = this.$root.store.all_watched;
@@ -214,7 +209,6 @@ export default {
           })
         ) {
           await this.axios.put(
-            // "https://ass-3-2-mohsen-evgeny.herokuapp.com/recipes/random"
             `http://localhost:3000/user/recipeInfo/update/${this.recipe.id}`,
             {
               isSaved: 1,
@@ -222,29 +216,25 @@ export default {
           );
         } else {
           await this.axios.post(
-            // "https://ass-3-2-mohsen-evgeny.herokuapp.com/recipes/random"
             `http://localhost:3000/user/recipeInfo/add/${this.recipe.id}`,
             {
               isSaved: 1,
             }
           );
         }
-        // local
-        // await this.$root.store.setFavorite(this.favorites);
+
         this.watched = "✔️";
         this.favorite = "❤️";
         this.isHidden = true;
 
         let favoriteResponse = await this.axios.get(
           "http://localhost:3000/user/favorites"
-          // "https://ass-3-2-mohsen-evgeny.herokuapp.com/user/myrecipes"
         );
         this.$root.store.favorite_recipes = favoriteResponse["data"];
         this.favorites = this.$root.store.favorite_recipes;
 
         let watchedResponse = await this.axios.get(
           "http://localhost:3000/user//allWatched"
-          // "https://ass-3-2-mohsen-evgeny.herokuapp.com/user/myrecipes"
         );
 
         this.$root.store.all_watched = watchedResponse["data"];
@@ -266,14 +256,11 @@ export default {
   min-width: 250px;
 
   position: relative;
-  /* margin-top: 10px; */
   border-style: solid;
 }
 .recipe-preview > .recipe-body {
   width: 100%;
-  /* height: 100%; */
   position: relative;
-  /* margin-top: 10px; */
 }
 
 div.col {
@@ -287,11 +274,9 @@ img.recipe-image {
 .recipe-preview .recipe-body .recipe-image {
   margin-left: auto;
   margin-right: auto;
-  /* margin-top: auto; */
   margin-bottom: auto;
   display: block;
   width: 100%;
-  /* height: 80%; */
   -webkit-background-size: cover;
   -moz-background-size: cover;
   background-size: cover;
