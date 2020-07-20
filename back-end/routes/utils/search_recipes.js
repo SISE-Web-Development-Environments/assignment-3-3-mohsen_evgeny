@@ -4,7 +4,7 @@ var express = require("express");
 var router = express.Router();
 
 const recipes_api_url = "https://api.spoonacular.com/recipes";
-const api_key = "apiKey=aa485425cc2a4212abb3bc2f89fe7fea"; // kind of secret - usualy need to be in external file
+const api_key = "apiKey=3cd244d4c85e4ee4b4100c3046fd6d72"; // kind of secret - usualy need to be in external file
 
 function extractQueriesParams(query_params, search_params) {
   const param_list = ["cuisine", "diet", "intolerances"];
