@@ -31,11 +31,9 @@ export default {
       try {
         const response = await this.axios.get(
           "http://localhost:3000/user/family"
-          // "https://ass-3-2-mohsen-evgeny.herokuapp.com/user/myrecipes"
         );
         console.log(response);
         const recipes = response.data; // change to data
-        // this.FamilyResponse = [];
         this.familyResponse = recipes;
       } catch (err) {}
     },

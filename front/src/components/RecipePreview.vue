@@ -17,7 +17,7 @@
           {{ recipe.title }}
         </div>
         <ul class="recipe-overview">
-          <li>{{ recipe.readyInMinutes }} minutessadasdsa</li>
+          <li>{{ recipe.readyInMinutes }} minutes</li>
           <li>{{ recipe.aggregateLikes }} likes</li>
         </ul>
         <ul class="recipe-overview">
@@ -116,8 +116,6 @@ export default {
   },
 
   created() {
-    // local
-    // this.favorites = this.$root.store.getFavorite("favorite_recipes");
     this.favorites = this.$root.store.favorite_recipes;
     this.allWatched = this.$root.store.all_watched;
   },
@@ -175,43 +173,42 @@ export default {
     },
 
     async addToWatch() {
-        //add to watch list
-        if (
-          this.$root.store.username &&
-          !this.$route.params.family &&
-          !this.$route.params.personal &&
-          !this.$route.params.favorite
-        ) {
-          isHidden: false;
-          this.watched = "✔️";
-          try {
-            await this.axios.post(
-              `http://localhost:3000/user/recipeInfo/add/${this.recipe.id}`,
-              {
-                isSaved: 0,
-              }
-            );
+      //add to watch list
+      if (
+        this.$root.store.username &&
+        !this.$route.params.family &&
+        !this.$route.params.personal &&
+        !this.$route.params.favorite
+      ) {
+        isHidden: false;
+        this.watched = "✔️";
+        try {
+          await this.axios.post(
+            `http://localhost:3000/user/recipeInfo/add/${this.recipe.id}`,
+            {
+              isSaved: 0,
+            }
+          );
 
-            let watchedResponse = await this.axios.get(
-              "http://localhost:3000/user/allWatched"
-              // "https://ass-3-2-mohsen-evgeny.herokuapp.com/user/myrecipes"
-            );
-            // this.$root.store.favorite_recipes = favoriteResponse["data"];
-            // this.favorites = this.$root.store.favorite_recipes;
+          let watchedResponse = await this.axios.get(
+            "http://localhost:3000/user/allWatched"
+          );
 
-            this.$root.store.all_watched = watchedResponse["data"];
-            this.allWatched = this.$root.store.all_watched;
-            
-          } catch (err) {
-            console.log(err);
-          }
+          this.$root.store.all_watched = watchedResponse["data"];
+          this.allWatched = this.$root.store.all_watched;
+        } catch (err) {
+          console.log(err);
         }
-      },
+      }
+    },
     async addToFavorite() {
       try {
-        if (this.allWatched.some(elem =>{ return JSON.stringify(this.recipe.id) === JSON.stringify(elem.id);})) {
+        if (
+          this.allWatched.some((elem) => {
+            return JSON.stringify(this.recipe.id) === JSON.stringify(elem.id);
+          })
+        ) {
           await this.axios.put(
-            // "https://ass-3-2-mohsen-evgeny.herokuapp.com/recipes/random"
             `http://localhost:3000/user/recipeInfo/update/${this.recipe.id}`,
             {
               isSaved: 1,
@@ -219,29 +216,24 @@ export default {
           );
         } else {
           await this.axios.post(
-            // "https://ass-3-2-mohsen-evgeny.herokuapp.com/recipes/random"
             `http://localhost:3000/user/recipeInfo/add/${this.recipe.id}`,
             {
               isSaved: 1,
             }
           );
         }
-        // local
-        // await this.$root.store.setFavorite(this.favorites);
         this.watched = "✔️";
         this.favorite = "❤️";
         this.isHidden = true;
 
         let favoriteResponse = await this.axios.get(
           "http://localhost:3000/user/favorites"
-          // "https://ass-3-2-mohsen-evgeny.herokuapp.com/user/myrecipes"
         );
         this.$root.store.favorite_recipes = favoriteResponse["data"];
         this.favorites = this.$root.store.favorite_recipes;
 
         let watchedResponse = await this.axios.get(
           "http://localhost:3000/user//allWatched"
-          // "https://ass-3-2-mohsen-evgeny.herokuapp.com/user/myrecipes"
         );
 
         this.$root.store.all_watched = watchedResponse["data"];
@@ -259,15 +251,19 @@ export default {
   display: inline-block;
   width: 100%;
   height: 100%;
+  max-width: 800px;
+  min-width: 250px;
+
   position: relative;
-  /* margin-top: 10px; */
   border-style: solid;
 }
 .recipe-preview > .recipe-body {
   width: 100%;
-  /* height: 100%; */
   position: relative;
-  /* margin-top: 10px; */
+}
+
+div.col {
+  min-width: 300px;
 }
 
 img.recipe-image {
@@ -277,11 +273,9 @@ img.recipe-image {
 .recipe-preview .recipe-body .recipe-image {
   margin-left: auto;
   margin-right: auto;
-  /* margin-top: auto; */
   margin-bottom: auto;
   display: block;
   width: 100%;
-  /* height: 80%; */
   -webkit-background-size: cover;
   -moz-background-size: cover;
   background-size: cover;

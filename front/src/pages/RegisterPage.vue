@@ -184,10 +184,6 @@
     >
       Register failed: {{ form.submitError }}
     </b-alert>
-    <!-- <b-card class="mt-3 md-3" header="Form Data Result">
-      <pre class="m-0"><strong>form:</strong> {{ form }}</pre>
-      <pre class="m-0"><strong>$v.form:</strong> {{ $v.form }}</pre>
-    </b-card> -->
   </div>
 </template>
 
@@ -256,9 +252,7 @@ export default {
     },
   },
   mounted() {
-    // console.log("mounted");
     this.countries.push(...countries);
-    // console.log($v);
   },
   methods: {
     validateState(param) {
@@ -268,10 +262,8 @@ export default {
     async Register() {
       try {
         const response = await this.axios.post(
-          // "https://ass-3-2-mohsen-evgeny.herokuapp.com/Register",
           "http://localhost:3000/Register",
           {
-            //TODO: change
             username: this.form.username,
             firstname: this.form.firstname,
             lastname: this.form.lastname,
@@ -282,19 +274,16 @@ export default {
           }
         );
         this.$router.push("/login");
-        // console.log(response)
       } catch (err) {
         console.log(err.response);
         this.form.submitError = err.response.data.message;
       }
     },
     onRegister() {
-      // console.log("register method called");
       this.$v.form.$touch();
       if (this.$v.form.$anyError) {
         return;
       }
-      // console.log("register method go");
       this.Register();
     },
     onReset() {

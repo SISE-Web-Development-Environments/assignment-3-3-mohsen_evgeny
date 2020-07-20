@@ -57,9 +57,6 @@
     >
       Login failed: {{ form.submitError }}
     </b-alert>
-    <!-- <b-card class="mt-3" header="Form Data Result">
-      <pre class="m-0">{{ form }}</pre>
-    </b-card> -->
   </div>
 </template>
 
@@ -97,14 +94,14 @@ export default {
           username: this.form.username,
           password: this.form.password,
         });
-        // console.log(response);
-        // this.$root.loggedIn = true;
         console.log(this.$root.store.login);
         await this.getFavorites();
+        await this.updateWatched();
+
         await this.getAllWatched();
         this.$root.store.login(this.form.username);
+        console.log(this.$root.store);
         try {
-          // this.$router.go("/#/"); //redirect to main page !!!!!
           this.$router.push("/").catch(() => {
             this.$forceUpdate();
           });
@@ -116,16 +113,37 @@ export default {
         this.form.submitError = err.response.data.message;
       }
     },
-    onLogin() {
-      // console.log("login method called");
+    async onLogin() {
       this.form.submitError = undefined;
       this.$v.form.$touch();
       if (this.$v.form.$anyError) {
         return;
       }
-      // console.log("login method go");
 
-      this.Login();
+      await this.Login();
+    },
+
+    async getFavorites() {
+      const favorite = await this.axios.get(
+        `http://localhost:3000/user/favorites`
+      );
+
+      this.$root.store.favorite_recipes = favorite["data"];
+    },
+
+    async getAllWatched() {
+      const watched = await this.axios.get(
+        `http://localhost:3000/user/allWatched`
+      );
+
+      this.$root.store.all_watched = watched["data"];
+    },
+    async updateWatched() {
+      const watchedResponse = await this.axios.get(
+        "http://localhost:3000/user/watched"
+      );
+
+      this.$root.store.watched_user = watchedResponse["data"];
     },
 
     async getFavorites() {

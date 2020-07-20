@@ -35,17 +35,18 @@ export default {
 </script>
 
 <style scoped>
+div.col {
+  min-width: 300px;
+}
 .recipe-preview-user {
   display: inline-block;
   width: 100%;
   height: 100%;
   position: relative;
-  /* margin: 20px 20px; */
   border-style: solid;
 }
 .recipe-previews > .recipe-body {
   width: 100%;
-  /* height: 200px; */
   position: relative;
 }
 
@@ -59,7 +60,6 @@ img.recipe-image {
   margin-bottom: auto;
   display: block;
   width: 100%;
-  /* height: 40%; */
   -webkit-background-size: cover;
   -moz-background-size: cover;
   background-size: cover;
