@@ -222,7 +222,6 @@ export default {
             }
           );
         }
-
         this.watched = "✔️";
         this.favorite = "❤️";
         this.isHidden = true;

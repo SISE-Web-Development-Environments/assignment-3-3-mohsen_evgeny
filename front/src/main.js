@@ -87,6 +87,17 @@ const shared_data = {
     this.watched_user = [];
   },
 
+  // local
+  // setFavorite(favorite_recipes) {
+  //   localStorage.setItem("favorite_recipes", JSON.stringify(favorite_recipes));
+  // },
+  // removeFavorite(){
+  //   localStorage.removeItem("favorite_recipes");
+  // },
+  // getFavorite() {
+  //   return JSON.parse(localStorage.getItem("favorite_recipes"));
+  // },
+
   searched_recipes: [],
   favorite_recipes: [],
   all_watched: [],
