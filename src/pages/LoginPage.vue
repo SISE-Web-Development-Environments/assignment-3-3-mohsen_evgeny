@@ -101,8 +101,11 @@ export default {
         // this.$root.loggedIn = true;
         console.log(this.$root.store.login);
         await this.getFavorites();
+        await this.updateWatched();
+
         await this.getAllWatched();
         this.$root.store.login(this.form.username);
+        console.log(this.$root.store);
         try {
           // this.$router.go("/#/"); //redirect to main page !!!!!
           this.$router.push("/").catch(() => {
@@ -116,7 +119,7 @@ export default {
         this.form.submitError = err.response.data.message;
       }
     },
-    onLogin() {
+    async onLogin() {
       // console.log("login method called");
       this.form.submitError = undefined;
       this.$v.form.$touch();
@@ -125,7 +128,7 @@ export default {
       }
       // console.log("login method go");
 
-      this.Login();
+      await this.Login();
     },
 
     async getFavorites() {
@@ -150,6 +153,16 @@ export default {
       // await this.$root.store.setFavorite(favorite["data"]);
 
       this.$root.store.all_watched = watched["data"];
+    },
+    async updateWatched() {
+      const watchedResponse = await this.axios.get(
+        // "https://ass-3-2-mohsen-evgeny.herokuapp.com/recipes/random"
+        "http://localhost:3000/user/watched"
+      );
+      // const watchedRecipes = watchedResponse.data; // change to data
+      // this.watchedRecipes = [];
+      this.$root.store.watched_user = watchedResponse["data"];
+      // console.log(this.watchedRecipes);
     },
   },
 };

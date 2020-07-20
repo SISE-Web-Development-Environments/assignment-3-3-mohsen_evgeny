@@ -19,7 +19,7 @@
       <b-col v-if="!$root.store.username">
         <LoginPage />
       </b-col>
-      <b-col v-else v-bind:class="updateWatched()">
+      <b-col v-else>
         <!-- TODO Change to RecipePreviewListUser -->
         <RecipePreviewList
           title="Last Viewed Recipes"
@@ -28,7 +28,7 @@
             blur: !$root.store.username,
             center: true,
           }"
-          :recipes="watchedRecipes"
+          :recipes="this.$root.store.watched_user"
           disabled
         ></RecipePreviewList>
       </b-col>
@@ -49,26 +49,28 @@ export default {
   data() {
     return {
       randomRecipes: [],
-      watchedRecipes: [],
-      bool: false,
+      // watchedRecipes: this.$root.store.watched_user,
+      // bool: false,
     };
   },
   mounted() {
     this.updateRecipes();
+    this.updateWatched();
   },
   methods: {
     async updateWatched() {
-      if (!this.bool) {
-        const watchedResponse = await this.axios.get(
-          // "https://ass-3-2-mohsen-evgeny.herokuapp.com/recipes/random"
-          "http://localhost:3000/user/watched"
-        );
-        const watchedRecipes = watchedResponse.data; // change to data
-        this.watchedRecipes = [];
-        this.watchedRecipes.push(...watchedRecipes);
-        console.log(this.watchedRecipes);
-        this.bool = true;
-      }
+      // if (this.$root.store.bool) {
+      const watchedResponse = await this.axios.get(
+        // "https://ass-3-2-mohsen-evgeny.herokuapp.com/recipes/random"
+        "http://localhost:3000/user/watched"
+      );
+      const watchedRecipes = watchedResponse.data; // change to data
+      // this.watchedRecipes = [];
+      // this.watchedRecipes.push(...watchedRecipes);
+      this.$root.store.watched_user = watchedRecipes;
+      console.log(this.watchedRecipes);
+      // localStorage.setItem("bool", false);
+      // }
     },
     async updateRecipes() {
       try {

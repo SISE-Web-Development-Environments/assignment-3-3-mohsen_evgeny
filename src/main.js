@@ -84,6 +84,7 @@ const shared_data = {
     console.log("logout");
     localStorage.removeItem("username");
     this.username = undefined;
+    this.watched_user = [];
   },
 
   // local
@@ -100,6 +101,7 @@ const shared_data = {
   searched_recipes: [],
   favorite_recipes: [],
   all_watched: [],
+  watched_user: [],
 };
 console.log(shared_data);
 // Vue.prototype.$root.store = shared_data;
