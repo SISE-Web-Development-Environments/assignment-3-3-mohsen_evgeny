@@ -55,7 +55,9 @@ export default {
   },
   mounted() {
     this.updateRecipes();
-    this.updateWatched();
+    if (this.$root.store.username) {
+      this.updateWatched();
+    }
   },
   methods: {
     async updateWatched() {
