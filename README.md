@@ -13,8 +13,8 @@ There are two users:
 2) username: mohsenab, password: 1234
 
 # Submitted by:
-Mohsen Abdalla - 318984697 <br />
-Evgeny Umansky - 332375252
+Mohsen Abdalla  <br />
+Evgeny Umansky 
 
 
 * insinde the back-end folder there is the updated files of the assignment 3-2
