@@ -1,6 +1,6 @@
 # Submitted by:
-Mohsen Abdalla - 318984697 <br />
-Evgeny Umansky - 332375252
+Mohsen Abdalla  <br />
+Evgeny Umansky 
 
 # Link to updated API:
 https://app.swaggerhub.com/apis/mohsenab98/foodrecipe/2.0.0#/
